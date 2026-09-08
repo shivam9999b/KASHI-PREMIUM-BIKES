@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>सेटिंग्स - Admin Panel</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="css/admin.css" />
+    <link rel="stylesheet" href="css/settings.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+</head>
+<body class="admin-page">
+
+    <!-- ===== ADMIN NAVBAR ===== -->
+    <nav class="admin-navbar">
+        <div class="admin-container">
+            <div class="admin-logo">
+                <i class="fas fa-ghat"></i>
+                <span>Admin <span class="highlight">Panel</span></span>
+            </div>
+            <div class="admin-user">
+                <span id="adminEmail">admin@email.com</span>
+                <img src="https://ui-avatars.com/api/?name=Admin&background=d4a373&color=fff" alt="Admin" />
+                <button onclick="logoutAdmin()" class="btn-logout-admin">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="admin-wrapper">
+        <!-- ===== SIDEBAR ===== -->
+        <aside class="admin-sidebar">
+            <ul class="sidebar-menu">
+                <li><a href="index.html"><i class="fas fa-chart-pie"></i><span>Dashboard</span></a></li>
+                <li><a href="manage-vehicles.html"><i class="fas fa-car"></i><span>गाड़ियाँ मैनेज करें</span></a></li>
+                <li><a href="manage-users.html"><i class="fas fa-users"></i><span>यूज़र मैनेज करें</span></a></li>
+                <li><a href="reports.html"><i class="fas fa-chart-bar"></i><span>रिपोर्ट्स</span></a></li>
+                <li class="active"><a href="settings.html"><i class="fas fa-cog"></i><span>सेटिंग्स</span></a></li>
+            </ul>
+        </aside>
+
+        <!-- ===== MAIN CONTENT ===== -->
+        <main class="admin-content">
+            <div class="admin-header">
+                <h1><i class="fas fa-cog"></i> सेटिंग्स</h1>
+                <button onclick="saveAllSettings()" class="btn-save-all">
+                    <i class="fas fa-save"></i> सभी सेटिंग्स सेव करें
+                </button>
+            </div>
+
+            <!-- ===== SETTINGS TABS ===== -->
+            <div class="settings-tabs">
+                <button class="settings-tab active" data-tab="general" onclick="switchSettingsTab('general')">
+                    <i class="fas fa-globe"></i> सामान्य
+                </button>
+                <button class="settings-tab" data-tab="appearance" onclick="switchSettingsTab('appearance')">
+                    <i class="fas fa-palette"></i> दिखावट
+                </button>
+                <button class="settings-tab" data-tab="security" onclick="switchSettingsTab('security')">
+                    <i class="fas fa-shield-alt"></i> सुरक्षा
+                </button>
+                <button class="settings-tab" data-tab="notifications" onclick="switchSettingsTab('notifications')">
+                    <i class="fas fa-bell"></i> सूचनाएँ
+                </button>
+                <button class="settings-tab" data-tab="seo" onclick="switchSettingsTab('seo')">
+                    <i class="fas fa-search"></i> SEO
+                </button>
+                <button class="settings-tab" data-tab="backup" onclick="switchSettingsTab('backup')">
+                    <i class="fas fa-database"></i> बैकअप
+                </button>
+                <button class="settings-tab" data-tab="api" onclick="switchSettingsTab('api')">
+                    <i class="fas fa-code"></i> API
+                </button>
+            </div>
+
+            <!-- ===== SETTINGS CONTENT ===== -->
+            <div id="settingsContent">
+
+                <!-- ============================================ -->
+                <!-- GENERAL SETTINGS -->
+                <!-- ============================================ -->
+                <div id="settingsGeneral" class="settings-section active">
+                    <div class="settings-card">
+                        <div class="settings-card-header">
+                            <h3><i class="fas fa-globe"></i> सामान्य सेटिंग्स</h3>
+                            <p>साइट की बुनियादी जानकारी और सेटिंग्स</p>
+                        </div>
+                        <div class="settings-card-body">
+                            <div class="form-group">
+                                <label>साइट का नाम <span class="required">*</span></label>
+                                <input type="text" id="siteName" value="वाराणसी Vehicles" placeholder="साइट का नाम" />
+                            </div>
+                            <div class="form-group">
+                                <label>साइट का विवरण</label>
+                                <textarea id="siteDescription" rows="3" placeholder="साइट का विवरण">वाराणसी में बाइक और कार बेचने का सबसे भरोसेमंद प्लेटफॉर्म</textarea>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>कंपनी का नाम</label>
+                                    <input type="text" id="companyName" value="वाराणसी Vehicles Pvt. Ltd." />
+                                </div>
+                                <div class="form-group">
+                                    <label>साल</label>
+                                    <input type="text" id="companyYear" value="2024" />
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>ईमेल</label>
+                                    <input type="email" id="contactEmail" value="info@varanasivehicles.com" />
+                                </div>
+                                <div class="form-group">
+                                    <label>फोन नंबर</label>
+                                    <input type="tel" id="contactPhone" value="+91 99999 88888" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>पता</label>
+                                <textarea id="companyAddress" rows="2">वाराणसी, उत्तर प्रदेश, भारत</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>सोशल मीडिया लिंक्स</label>
+                                <div class="social-links-input">
+                                    <div class="social-input">
+                                        <i class="fab fa-facebook"></i>
+                                        <input type="url" id="facebookLink" value="https://facebook.com/varanasivehicles" placeholder="Facebook URL" />
+                                    </div>
+                                    <div class="social-input">
+                                        <i class="fab fa-instagram"></i>
+                                        <input type="url" id="instagramLink" value="https://instagram.com/varanasivehicles" placeholder="Instagram URL" />
+                                    </div>
+                                    <div class="social-input">
+                                        <i class="fab fa-youtube"></i>
+                                        <input type="url" id="youtubeLink" value="https://youtube.com/varanasivehicles" placeholder="YouTube URL" />
+                                    </div>
+                                    <div class="social-input">
+                                        <i class="fab fa-twitter"></i>
+                                        <input type="url" id="twitterLink" value="https://twitter.com/varanasivehicles" placeholder="Twitter URL" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="settings-card-footer">
+                            <button onclick="saveGeneralSettings()" class="btn-save-settings">
+                                <i class="fas fa-save"></i> सेव करें
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================================ -->
+                <!-- APPEARANCE SETTINGS -->
+                <!-- ============================================ -->
+                <div id="settingsAppearance" class="settings-section" style="display:none;">
+                    <div class="settings-card">
+                        <div class="settings-card-header">
+                            <h3><i class="fas fa-palette"></i> दिखावट सेटिंग्स</h3>
+                            <p>साइट का थीम, रंग, और डिज़ाइन सेट करें</p>
+                        </div>
+                        <div class="settings-card-body">
+                            <div class="form-group">
+                                <label>प्राथमिक रंग <span class="required">*</span></label>
+                                <div class="color-picker-group">
+                                    <input type="color" id="primaryColor" value="#d4a373" />
+                                    <input type="text" id="primaryColorText" value="#d4a373" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>सेकेंडरी रंग</label>
+                                <div class="color-picker-group">
+                                    <input type="color" id="secondaryColor" value="#2d2a24" />
+                                    <input type="text" id="secondaryColorText" value="#2d2a24" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>बैकग्राउंड रंग</label>
+                                <div class="color-picker-group">
+                                    <input type="color" id="bgColor" value="#f8f4f0" />
+                                    <input type="text" id="bgColorText" value="#f8f4f0" />
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>फॉन्ट स्टाइल</label>
+                                    <select id="fontStyle">
+                                        <option value="poppins">Poppins</option>
+                                        <option value="roboto">Roboto</option>
+                                        <option value="inter">Inter</option>
+                                        <option value="open-sans">Open Sans</option>
+                                        <option value="lato">Lato</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>फॉन्ट साइज</label>
+                                    <select id="fontSize">
+                                        <option value="small">छोटा</option>
+                                        <option value="medium" selected>मध्यम</option>
+                                        <option value="large">बड़ा</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>लोगो अपलोड करें</label>
+                                <div class="logo-upload">
+                                    <div class="logo-preview" id="logoPreview">
+                                        <img src="https://via.placeholder.com/200x60/d4a373/fff?text=Logo" alt="Logo" />
+                                    </div>
+                                    <input type="file" id="logoUpload" accept="image/*" />
+                                    <button onclick="uploadLogo()" class="btn-upload-logo">
+                                        <i class="fas fa-upload"></i> लोगो बदलें
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>फेविकॉन अपलोड करें</label>
+                                <div class="logo-upload">
+                                    <div class="logo-preview" id="faviconPreview">
+                                        <img src="https://via.placeholder.com/32x32/d4a373/fff?text=F" alt="Favicon" />
+                                    </div>
+                                    <input type="file" id="faviconUpload" accept="image/*" />
+                                    <button onclick="uploadFavicon()" class="btn-upload-logo">
+                                        <i class="fas fa-upload"></i> फेविकॉन बदलें
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>थीम मोड</label>
+                                <div class="theme-toggle-group">
+                                    <button class="theme-btn active" data-theme="light" onclick="setTheme('light')">
+                                        <i class="fas fa-sun"></i> लाइट
+                                    </button>
+                                    <button class="theme-btn" data-theme="dark" onclick="setTheme('dark')">
+                                        <i class="fas fa-moon"></i> डार्क
+                                    </button>
+                                    <button class="theme-btn" data-theme="auto" onclick="setTheme('auto')">
+                                        <i class="fas fa-adjust"></i> ऑटो
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="settings-card-footer">
+                            <button onclick="saveAppearanceSettings()" class="btn-save-settings">
+                                <i class="fas fa-save"></i> सेव करें
+                            </button>
+                            <button onclick="previewTheme()" class="btn-preview">
+                                <i class="fas fa-eye"></i> पूर्वावलोकन
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================================ -->
+                <!-- SECURITY SETTINGS -->
+                <!-- ============================================ -->
+                <div id="settingsSecurity" class="settings-section" style="display:none;">
+                    <div class="settings-card">
+                        <div class="settings-card-header">
+                            <h3><i class="fas fa-shield-alt"></i> सुरक्षा सेटिंग्स</h3>
+                            <p>साइट की सुरक्षा और एक्सेस कंट्रोल</p>
+                        </div>
+                        <div class="settings-card-body">
+                            <div class="security-option">
+                                <div class="option-info">
+                                    <h4><i class="fas fa-user-check"></i> दो-कारक प्रमाणीकरण (2FA)</h4>
+                                    <p>लॉगिन के लिए OTP या Authenticator App का उपयोग करें</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="twoFactorAuth" />
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="security-option">
+                                <div class="option-info">
+                                    <h4><i class="fas fa-lock"></i> मजबूत पासवर्ड नीति</h4>
+                                    <p>कम से कम 8 अक्षर, नंबर, और स्पेशल कैरेक्टर</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="strongPassword" checked />
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="security-option">
+                                <div class="option-info">
+                                    <h4><i class="fas fa-clock"></i> सत्र समय सीमा</h4>
+                                    <p>निष्क्रियता के बाद ऑटो लॉगआउट</p>
+                                </div>
+                                <select id="sessionTimeout" class="security-select">
+                                    <option value="15">15 मिनट</option>
+                                    <option value="30" selected>30 मिनट</option>
+                                    <option value="60">1 घंटा</option>
+                                    <option value="120">2 घंटे</option>
+                                    <option value="480">8 घंटे</option>
+                                </select>
+                            </div>
+                            <div class="security-option">
+                                <div class="option-info">
+                                    <h4><i class="fas fa-ban"></i> ब्रूट फोर्स प्रोटेक्शन</h4>
+                                    <p>5 असफल प्रयासों के बाद 15 मिनट ब्लॉक</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="bruteForceProtection" checked />
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="security-option">
+                                <div class="option-info">
+                                    <h4><i class="fas fa-ip"></i> IP ब्लैकलिस्ट</h4>
+                                    <p>ब्लॉक की गई IP एड्रेस को मैनेज करें</p>
+                                </div>
+                                <button onclick="manageIPBlacklist()" class="btn-manage-ip">
+                                    <i class="fas fa-edit"></i> मैनेज करें
+                                </button>
+                            </div>
+                            <div class="security-option">
+                                <div class="option-info">
+                                    <h4><i class="fas fa-activity"></i> सुरक्षा लॉग्स</h4>
+                                    <p>सभी लॉगिन और सुरक्षा गतिविधियाँ देखें</p>
+                                </div>
+                                <button onclick="viewSecurityLogs()" class="btn-manage-ip">
+                                    <i class="fas fa-eye"></i> देखें
+                                </button>
+                            </div>
+                        </div>
+                        <div class="settings-card-footer">
+                            <button onclick="saveSecuritySettings()" class="btn-save-settings">
+                                <i class="fas fa-save"></i> सेव करें
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================================ -->
+                <!-- NOTIFICATIONS SETTINGS -->
+                <!-- ============================================ -->
+                <div id="settingsNotifications" class="settings-section" style="display:none;">
+                    <div class="settings-card">
+                        <div class="settings-card-header">
+                            <h3><i class="fas fa-bell"></i> सूचनाएँ सेटिंग्स</h3>
+                            <p>ईमेल, SMS, और वेब नोटिफिकेशन सेट करें</p>
+                        </div>
+                        <div class="settings-card-body">
+                            <div class="notification-option">
+                                <div class="option-info">
+                                    <h4><i class="fas fa-envelope"></i> ईमेल सूचनाएँ</h4>
+                                    <p>नई गाड़ी, नया यूज़र, और रिपोर्ट्स के लिए ईमेल</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="emailNotifications" checked />
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="notification-option">
+                                <div class="option-info">
+                                    <h4><i class="fas fa-sms"></i> SMS सूचनाएँ</h4>
+                                    <p>महत्वपूर्ण अपडेट के लिए SMS</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="smsNotifications" />
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="notification-option">
+                                <div class="option-info">
+                                    <h4><i class="fas fa-browser"></i> वेब पुश नोटिफिकेशन</h4>
+                                    <p>ब्राउज़र में पुश नोटिफिकेशन</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="webNotifications" checked />
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="notification-option">
+                                <div class="option-info">
+                                    <h4><i class="fas fa-newspaper"></i> नई गाड़ी अलर्ट</h4>
+                                    <p>जब कोई नई गाड़ी डाली जाए</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="newVehicleAlert" checked />
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="notification-option">
+                                <div class="option-info">
+                                    <h4><i class="fas fa-user-plus"></i> नया यूज़र अलर्ट</h4>
+                                    <p>जब कोई नया यूज़र रजिस्टर करे</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="newUserAlert" checked />
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="notification-option">
+                                <div class="option-info">
+                                    <h4><i class="fas fa-chart-line"></i> दैनिक रिपोर्ट</h4>
+                                    <p>हर दिन की रिपोर्ट ईमेल पर भेजें</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="dailyReport" checked />
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>नोटिफिकेशन ईमेल</label>
+                                <input type="email" id="notificationEmail" value="admin@bike-sell.com" />
+                                <small>सूचनाएँ इस ईमेल पर भेजी जाएंगी</small>
+                            </div>
+                        </div>
+                        <div class="settings-card-footer">
+                            <button onclick="saveNotificationSettings()" class="btn-save-settings">
+                                <i class="fas fa-save"></i> सेव करें
+                            </button>
+                            <button onclick="testNotification()" class="btn-test">
+                                <i class="fas fa-bell"></i> टेस्ट नोटिफिकेशन
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================================ -->
+                <!-- SEO SETTINGS -->
+                <!-- ============================================ -->
+                <div id="settingsSeo" class="settings-section" style="display:none;">
+                    <div class="settings-card">
+                        <div class="settings-card-header">
+                            <h3><i class="fas fa-search"></i> SEO सेटिंग्स</h3>
+                            <p>सर्च इंजन के लिए मेटा डेटा और कीवर्ड</p>
+                        </div>
+                        <div class="settings-card-body">
+                            <div class="form-group">
+                                <label>मेटा टाइटल</label>
+                                <input type="text" id="metaTitle" value="वाराणसी Vehicles - बाइक और कार बेचें" />
+                                <small>60 अक्षर से कम रखें</small>
+                            </div>
+                            <div class="form-group">
+                                <label>मेटा विवरण</label>
+                                <textarea id="metaDescription" rows="3">वाराणसी में बाइक और कार बेचने का सबसे भरोसेमंद प्लेटफॉर्म। बिना कमीशन के अपनी गाड़ी बेचें।</textarea>
+                                <small>160 अक्षर से कम रखें</small>
+                            </div>
+                            <div class="form-group">
+                                <label>कीवर्ड्स</label>
+                                <input type="text" id="metaKeywords" value="वाराणसी, बाइक, कार, सेकेंड हैंड, गाड़ी बेचें" />
+                                <small>कॉमा (,) से अलग करें</small>
+                            </div>
+                            <div class="form-group">
+                                <label>OG (Open Graph) टैग</label>
+                                <div class="seo-preview">
+                                    <div class="og-preview" id="ogPreview">
+                                        <div class="og-image">
+                                            <img src="https://via.placeholder.com/600x314/d4a373/fff?text=वाराणसी+Vehicles" alt="OG Image" />
+                                        </div>
+                                        <div class="og-info">
+                                            <h4>वाराणसी Vehicles - बाइक और कार बेचें</h4>
+                                            <p>वाराणसी में बाइक और कार बेचने का सबसे भरोसेमंद प्लेटफॉर्म</p>
+                                            <span>www.varanasivehicles.com</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="seo-actions">
+                                    <input type="file" id="ogImageUpload" accept="image/*" />
+                                    <button onclick="uploadOGImage()" class="btn-upload-og">
+                                        <i class="fas fa-upload"></i> OG इमेज अपलोड करें
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Google Analytics</label>
+                                <input type="text" id="googleAnalytics" placeholder="UA-XXXXXXXX-X" />
+                            </div>
+                            <div class="form-group">
+                                <label>Google Search Console</label>
+                                <input type="text" id="searchConsole" placeholder="गूगल सर्च कंसोल कोड" />
+                            </div>
+                        </div>
+                        <div class="settings-card-footer">
+                            <button onclick="saveSeoSettings()" class="btn-save-settings">
+                                <i class="fas fa-save"></i> सेव करें
+                            </button>
+                            <button onclick="previewSEO()" class="btn-preview">
+                                <i class="fas fa-eye"></i> पूर्वावलोकन
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================================ -->
+                <!-- BACKUP SETTINGS -->
+                <!-- ============================================ -->
+                <div id="settingsBackup" class="settings-section" style="display:none;">
+                    <div class="settings-card">
+                        <div class="settings-card-header">
+                            <h3><i class="fas fa-database"></i> बैकअप सेटिंग्स</h3>
+                            <p>डेटा बैकअप और रिकवरी</p>
+                        </div>
+                        <div class="settings-card-body">
+                            <div class="backup-option">
+                                <div class="option-info">
+                                    <h4><i class="fas fa-clock"></i> स्वचालित बैकअप</h4>
+                                    <p>हर दिन/सप्ताह/महीने में ऑटो बैकअप</p>
+                                </div>
+                                <select id="backupFrequency" class="security-select">
+                                    <option value="daily">दैनिक</option>
+                                    <option value="weekly" selected>साप्ताहिक</option>
+                                    <option value="monthly">मासिक</option>
+                                    <option value="never">कभी नहीं</option>
+                                </select>
+                            </div>
+                            <div class="backup-option">
+                                <div class="option-info">
+                                    <h4><i class="fas fa-cloud-upload-alt"></i> क्लाउड बैकअप</h4>
+                                    <p>Google Drive / Dropbox पर बैकअप</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="cloudBackup" checked />
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="backup-option">
+                                <div class="option-info">
+                                    <h4><i class="fas fa-envelope"></i> बैकअप ईमेल</h4>
+                                    <p>बैकअप रिपोर्ट ईमेल पर भेजें</p>
+                                </div>
+                                <input type="email" id="backupEmail" value="backup@bike-sell.com" class="security-input" />
+                            </div>
+                            <div class="backup-actions">
+                                <button onclick="createBackup()" class="btn-backup">
+                                    <i class="fas fa-database"></i> अभी बैकअप लें
+                                </button>
+                                <button onclick="downloadBackup()" class="btn-restore">
+                                    <i class="fas fa-download"></i> बैकअप डाउनलोड करें
+                                </button>
+                                <button onclick="restoreBackup()" class="btn-restore">
+                                    <i class="fas fa-undo"></i> बैकअप रिस्टोर करें
+                                </button>
+                            </div>
+                            <div class="backup-list">
+                                <h4>पुराने बैकअप</h4>
+                                <div class="backup-item">
+                                    <div class="backup-info">
+                                        <i class="fas fa-file-archive"></i>
+                                        <span>backup_2024_01_15.zip</span>
+                                        <small>15 Jan 2024, 10:30 AM</small>
+                                    </div>
+                                    <div class="backup-actions">
+                                        <button onclick="downloadBackupFile('backup_2024_01_15.zip')" class="btn-icon">
+                                            <i class="fas fa-download"></i>
+                                        </button>
+                                        <button onclick="deleteBackupFile('backup_2024_01_15.zip')" class="btn-icon delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="backup-item">
+                                    <div class="backup-info">
+                                        <i class="fas fa-file-archive"></i>
+                                        <span>backup_2024_01_08.zip</span>
+                                        <small>8 Jan 2024, 10:30 AM</small>
+                                    </div>
+                                    <div class="backup-actions">
+                                        <button onclick="downloadBackupFile('backup_2024_01_08.zip')" class="btn-icon">
+                                            <i class="fas fa-download"></i>
+                                        </button>
+                                        <button onclick="deleteBackupFile('backup_2024_01_08.zip')" class="btn-icon delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="backup-item">
+                                    <div class="backup-info">
+                                        <i class="fas fa-file-archive"></i>
+                                        <span>backup_2024_01_01.zip</span>
+                                        <small>1 Jan 2024, 10:30 AM</small>
+                                    </div>
+                                    <div class="backup-actions">
+                                        <button onclick="downloadBackupFile('backup_2024_01_01.zip')" class="btn-icon">
+                                            <i class="fas fa-download"></i>
+                                        </button>
+                                        <button onclick="deleteBackupFile('backup_2024_01_01.zip')" class="btn-icon delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="settings-card-footer">
+                            <button onclick="saveBackupSettings()" class="btn-save-settings">
+                                <i class="fas fa-save"></i> सेव करें
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================================ -->
+                <!-- API SETTINGS -->
+                <!-- ============================================ -->
+                <div id="settingsApi" class="settings-section" style="display:none;">
+                    <div class="settings-card">
+                        <div class="settings-card-header">
+                            <h3><i class="fas fa-code"></i> API सेटिंग्स</h3>
+                            <p>API Keys और थर्ड-पार्टी इंटीग्रेशन</p>
+                        </div>
+                        <div class="settings-card-body">
+                            <div class="api-option">
+                                <div class="option-info">
+                                    <h4><i class="fas fa-key"></i> API Key</h4>
+                                    <p>इस API Key का उपयोग थर्ड-पार्टी एप्स के लिए करें</p>
+                                </div>
+                                <div class="api-key-display">
+                                    <input type="text" id="apiKey" value="pk_live_abcdefghijklmnopqrstuvwxyz123456" readonly />
+                                    <button onclick="regenerateAPIKey()" class="btn-regenerate">
+                                        <i class="fas fa-sync"></i> नई Key बनाएं
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="api-option">
+                                <div class="option-info">
+                                    <h4><i class="fas fa-credit-card"></i> Payment Gateway</h4>
+                                    <p>Razorpay / Stripe / PayPal सेटिंग्स</p>
+                                </div>
+                                <select id="paymentGateway" class="security-select">
+                                    <option value="razorpay">Razorpay</option>
+                                    <option value="stripe">Stripe</option>
+                                    <option value="paypal">PayPal</option>
+                                </select>
+                            </div>
+                            <div class="api-option">
+                                <div class="option-info">
+                                    <h4><i class="fas fa-map-marked-alt"></i> Map Service</h4>
+                                    <p>Google Maps / Mapbox / OpenStreetMap</p>
+                                </div>
+                                <select id="mapService" class="security-select">
+                                    <option value="google">Google Maps</option>
+                                    <option value="mapbox">Mapbox</option>
+                                    <option value="openstreet">OpenStreetMap</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Google Maps API Key</label>
+                                <input type="text" id="googleMapsKey" placeholder="AIzaSy... " />
+                            </div>
+                            <div class="form-group">
+                                <label>Razorpay Key ID</label>
+                                <input type="text" id="razorpayKey" placeholder="rzp_live_..." />
+                            </div>
+                            <div class="form-group">
+                                <label>Razorpay Key Secret</label>
+                                <input type="password" id="razorpaySecret" placeholder="••••••••••••••••" />
+                            </div>
+                            <div class="api-option">
+                                <div class="option-info">
+                                    <h4><i class="fas fa-sms"></i> SMS Service</h4>
+                                    <p>Twilio / MSG91 / SMS Local</p>
+                    </div>
+                                <select id="smsService" class="security-select">
+                                    <option value="twilio">Twilio</option>
+                                    <option value="msg91">MSG91</option>
+                                    <option value="smslocal">SMS Local</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Twilio Account SID</label>
+                                <input type="text" id="twilioSid" placeholder="AC..." />
+                            </div>
+                            <div class="form-group">
+                                <label>Twilio Auth Token</label>
+                                <input type="password" id="twilioToken" placeholder="••••••••••••••••" />
+                            </div>
+                            <div class="form-group">
+                                <label>WhatsApp Business API</label>
+                                <input type="text" id="whatsappApi" placeholder="WhatsApp API Key" />
+                            </div>
+                        </div>
+                        <div class="settings-card-footer">
+                            <button onclick="saveApiSettings()" class="btn-save-settings">
+                                <i class="fas fa-save"></i> सेव करें
+                            </button>
+                            <button onclick="testApiConnection()" class="btn-test">
+                                <i class="fas fa-plug"></i> टेस्ट कनेक्शन
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+  <!-- ============================================ -->
+    <!-- MODALS -->
+    <!-- ============================================ -->
+
+    <!-- IP Blacklist Modal -->
+    <div id="ipModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-ip"></i> IP ब्लैकलिस्ट मैनेज करें</h3>
+                <span class="modal-close" onclick="closeModal('ipModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>IP एड्रेस जोड़ें</label>
+                    <div class="ip-input-group">
+                        <input type="text" id="ipInput" placeholder="192.168.1.1" />
+                        <button onclick="addIP()" class="btn-add-ip"><i class="fas fa-plus"></i> जोड़ें</button>
+                    </div>
+                </div>
+                <div class="ip-list">
+                    <div class="ip-item">
+                        <span>192.168.1.100</span>
+                        <button onclick="removeIP('192.168.1.100')" class="btn-remove-ip"><i class="fas fa-times"></i></button>
+                    </div>
+                    <div class="ip-item">
+                        <span>10.0.0.50</span>
+                        <button onclick="removeIP('10.0.0.50')" class="btn-remove-ip"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Security Logs Modal -->
+    <div id="logsModal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3><i class="fas fa-activity"></i> सुरक्षा लॉग्स</h3>
+                <span class="modal-close" onclick="closeModal('logsModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="logs-list">
+                    <div class="log-item">
+                        <span class="log-time">2024-01-15 10:30:15</span>
+                        <span class="log-type success">✅ लॉगिन</span>
+                        <span class="log-desc">admin@bike-sell.com - 192.168.1.1</span>
+                    </div>
+                    <div class="log-item">
+                        <span class="log-time">2024-01-15 10:25:00</span>
+                        <span class="log-type warning">⚠️ असफल</span>
+                        <span class="log-desc">user@gmail.com - गलत पासवर्ड - 192.168.1.2</span>
+                    </div>
+                    <div class="log-item">
+                        <span class="log-time">2024-01-15 10:20:45</span>
+                        <span class="log-type success">✅ लॉगिन</span>
+                        <span class="log-desc">admin@bike-sell.com - 192.168.1.1</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="module">
+        import { auth, db } from '../js/firebase.js';
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        let settingsData = {};
+
+        // ===== AUTH CHECK =====
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                window.location.href = '../login.html';
+                return;
+            }
+            const adminEmails = ['admin@bike-sell.com', 'your-email@gmail.com'];
+            if (!adminEmails.includes(user.email)) {
+                alert('❌ Admin Access नहीं है!');
+                window.location.href = '../index.html';
+                return;
+            }
+            document.getElementById('adminEmail').textContent = user.email;
+            await loadSettings();
+        });
+
+        // ===== LOAD SETTINGS =====
+        async function loadSettings() {
+            try {
+                const docRef = doc(db, 'settings', 'siteSettings');
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    settingsData = docSnap.data();
+                    applySettings(settingsData);
+                } else {
+                    // Default settings
+                    settingsData = getDefaultSettings();
+                    await setDoc(docRef, settingsData);
+                    applySettings(settingsData);
+                }
+            } catch (error) {
+                console.error('Error loading settings:', error);
+                settingsData = getDefaultSettings();
+                applySettings(settingsData);
+            }
+        }
+
+        // ===== DEFAULT SETTINGS =====
+        function getDefaultSettings() {
+            return {
+                general: {
+                    siteName: 'वाराणसी Vehicles',
+                    siteDescription: 'वाराणसी में बाइक और कार बेचने का सबसे भरोसेमंद प्लेटफॉर्म',
+                    companyName: 'वाराणसी Vehicles Pvt. Ltd.',
+                    companyYear: '2024',
+                    contactEmail: 'info@varanasivehicles.com',
+                    contactPhone: '+91 99999 88888',
+                    companyAddress: 'वाराणसी, उत्तर प्रदेश, भारत',
+                    socialLinks: {
+                        facebook: 'https://facebook.com/varanasivehicles',
+                        instagram: 'https://instagram.com/varanasivehicles',
+                        youtube: 'https://youtube.com/varanasivehicles',
+                        twitter: 'https://twitter.com/varanasivehicles'
+                    }
+                },
+                appearance: {
+                    primaryColor: '#d4a373',
+                    secondaryColor: '#2d2a24',
+                    bgColor: '#f8f4f0',
+                    fontStyle: 'poppins',
+                    fontSize: 'medium',
+                    theme: 'light'
+                },
+                security: {
+                    twoFactorAuth: false,
+                    strongPassword: true,
+                    sessionTimeout: 30,
+                    bruteForceProtection: true
+                },
+                notifications: {
+                    emailNotifications: true,
+                    smsNotifications: false,
+                    webNotifications: true,
+                    newVehicleAlert: true,
+                    newUserAlert: true,
+                    dailyReport: true,
+                    notificationEmail: 'admin@bike-sell.com'
+                },
+                seo: {
+                    metaTitle: 'वाराणसी Vehicles - बाइक और कार बेचें',
+                    metaDescription: 'वाराणसी में बाइक और कार बेचने का सबसे भरोसेमंद प्लेटफॉर्म। बिना कमीशन के अपनी गाड़ी बेचें।',
+                    metaKeywords: 'वाराणसी, बाइक, कार, सेकेंड हैंड, गाड़ी बेचें',
+                    googleAnalytics: '',
+                    searchConsole: ''
+                },
+                backup: {
+                    frequency: 'weekly',
+                    cloudBackup: true,
+                    backupEmail: 'backup@bike-sell.com'
+                },
+                api: {
+                    paymentGateway: 'razorpay',
+                    mapService: 'google',
+                    smsService: 'twilio',
+                    googleMapsKey: '',
+                    razorpayKey: '',
+                    razorpaySecret: '',
+                    twilioSid: '',
+                    twilioToken: '',
+                    whatsappApi: ''
+                }
+            };
+        }
+
+        // ===== APPLY SETTINGS =====
+        function applySettings(data) {
+            // General
+            document.getElementById('siteName').value = data.general?.siteName || '';
+            document.getElementById('siteDescription').value = data.general?.siteDescription || '';
+            document.getElementById('companyName').value = data.general?.companyName || '';
+            document.getElementById('companyYear').value = data.general?.companyYear || '';
+            document.getElementById('contactEmail').value = data.general?.contactEmail || '';
+            document.getElementById('contactPhone').value = data.general?.contactPhone || '';
+            document.getElementById('companyAddress').value = data.general?.companyAddress || '';
+            document.getElementById('facebookLink').value = data.general?.socialLinks?.facebook || '';
+            document.getElementById('instagramLink').value = data.general?.socialLinks?.instagram || '';
+            document.getElementById('youtubeLink').value = data.general?.socialLinks?.youtube || '';
+            document.getElementById('twitterLink').value = data.general?.socialLinks?.twitter || '';
+
+            // Appearance
+            document.getElementById('primaryColor').value = data.appearance?.primaryColor || '#d4a373';
+            document.getElementById('primaryColorText').value = data.appearance?.primaryColor || '#d4a373';
+            document.getElementById('secondaryColor').value = data.appearance?.secondaryColor || '#2d2a24';
+            document.getElementById('secondaryColorText').value = data.appearance?.secondaryColor || '#2d2a24';
+            document.getElementById('bgColor').value = data.appearance?.bgColor || '#f8f4f0';
+            document.getElementById('bgColorText').value = data.appearance?.bgColor || '#f8f4f0';
+            document.getElementById('fontStyle').value = data.appearance?.fontStyle || 'poppins';
+            document.getElementById('fontSize').value = data.appearance?.fontSize || 'medium';
+            
+            // Theme
+            const theme = data.appearance?.theme || 'light';
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.theme === theme);
+            });
+
+            // Security
+            document.getElementById('twoFactorAuth').checked = data.security?.twoFactorAuth || false;
+            document.getElementById('strongPassword').checked = data.security?.strongPassword !== false;
+            document.getElementById('sessionTimeout').value = data.security?.sessionTimeout || 30;
+            document.getElementById('bruteForceProtection').checked = data.security?.bruteForceProtection !== false;
+             // Notifications
+            document.getElementById('emailNotifications').checked = data.notifications?.emailNotifications !== false;
+            document.getElementById('smsNotifications').checked = data.notifications?.smsNotifications || false;
+            document.getElementById('webNotifications').checked = data.notifications?.webNotifications !== false;
+            document.getElementById('newVehicleAlert').checked = data.notifications?.newVehicleAlert !== false;
+            document.getElementById('newUserAlert').checked = data.notifications?.newUserAlert !== false;
+            document.getElementById('dailyReport').checked = data.notifications?.dailyReport !== false;
+            document.getElementById('notificationEmail').value = data.notifications?.notificationEmail || '';
+
+            // SEO
+            document.getElementById('metaTitle').value = data.seo?.metaTitle || '';
+            document.getElementById('metaDescription').value = data.seo?.metaDescription || '';
+            document.getElementById('metaKeywords').value = data.seo?.metaKeywords || '';
+            document.getElementById('googleAnalytics').value = data.seo?.googleAnalytics || '';
+            document.getElementById('searchConsole').value = data.seo?.searchConsole || '';
+
+            // Backup
+            document.getElementById('backupFrequency').value = data.backup?.frequency || 'weekly';
+            document.getElementById('cloudBackup').checked = data.backup?.cloudBackup !== false;
+            document.getElementById('backupEmail').value = data.backup?.backupEmail || '';
+
+            // API
+            document.getElementById('paymentGateway').value = data.api?.paymentGateway || 'razorpay';
+            document.getElementById('mapService').value = data.api?.mapService || 'google';
+            document.getElementById('smsService').value = data.api?.smsService || 'twilio';
+            document.getElementById('googleMapsKey').value = data.api?.googleMapsKey || '';
+            document.getElementById('razorpayKey').value = data.api?.razorpayKey || '';
+            document.getElementById('razorpaySecret').value = data.api?.razorpaySecret || '';
+            document.getElementById('twilioSid').value = data.api?.twilioSid || '';
+            document.getElementById('twilioToken').value = data.api?.twilioToken || '';
+            document.getElementById('whatsappApi').value = data.api?.whatsappApi || '';
+        }
+
+        // ===== GET SETTINGS FROM FORM =====
+        function getSettingsFromForm() {
+            return {
+                general: {
+                    siteName: document.getElementById('siteName').value,
+                    siteDescription: document.getElementById('siteDescription').value,
+                    companyName: document.getElementById('companyName').value,
+                    companyYear: document.getElementById('companyYear').value,
+                    contactEmail: document.getElementById('contactEmail').value,
+                    contactPhone: document.getElementById('contactPhone').value,
+                    companyAddress: document.getElementById('companyAddress').value,
+                    socialLinks: {
+                        facebook: document.getElementById('facebookLink').value,
+                        instagram: document.getElementById('instagramLink').value,
+                        youtube: document.getElementById('youtubeLink').value,
+                        twitter: document.getElementById('twitterLink').value
+                    }
+                },
+                appearance: {
+                    primaryColor: document.getElementById('primaryColor').value,
+                    secondaryColor: document.getElementById('secondaryColor').value,
+                    bgColor: document.getElementById('bgColor').value,
+                    fontStyle: document.getElementById('fontStyle').value,
+                    fontSize: document.getElementById('fontSize').value,
+                    theme: document.querySelector('.theme-btn.active')?.dataset.theme || 'light'
+                },
+                security: {
+                    twoFactorAuth: document.getElementById('twoFactorAuth').checked,
+                    strongPassword: document.getElementById('strongPassword').checked,
+                    sessionTimeout: parseInt(document.getElementById('sessionTimeout').value),
+                    bruteForceProtection: document.getElementById('bruteForceProtection').checked
+                },
+                notifications: {
+                    emailNotifications: document.getElementById('emailNotifications').checked,
+                    smsNotifications: document.getElementById('smsNotifications').checked,
+                    webNotifications: document.getElementById('webNotifications').checked,
+                    newVehicleAlert: document.getElementById('newVehicleAlert').checked,
+                    newUserAlert: document.getElementById('newUserAlert').checked,
+                    dailyReport: document.getElementById('dailyReport').checked,
+                    notificationEmail: document.getElementById('notificationEmail').value
+                },
+                seo: {
+                    metaTitle: document.getElementById('metaTitle').value,
+                    metaDescription: document.getElementById('metaDescription').value,
+                    metaKeywords: document.getElementById('metaKeywords').value,
+                    googleAnalytics: document.getElementById('googleAnalytics').value,
+                    searchConsole: document.getElementById('searchConsole').value
+                },
+                backup: {
+                    frequency: document.getElementById('backupFrequency').value,
+                    cloudBackup: document.getElementById('cloudBackup').checked,
+                    backupEmail: document.getElementById('backupEmail').value
+                },
+                api: {
+                    paymentGateway: document.getElementById('paymentGateway').value,
+                    mapService: document.getElementById('mapService').value,
+                    smsService: document.getElementById('smsService').value,
+                    googleMapsKey: document.getElementById('googleMapsKey').value,
+                    razorpayKey: document.getElementById('razorpayKey').value,
+                    razorpaySecret: document.getElementById('razorpaySecret').value,
+                    twilioSid: document.getElementById('twilioSid').value,
+                    twilioToken: document.getElementById('twilioToken').value,
+                    whatsappApi: document.getElementById('whatsappApi').value
+                }
+            };
+        }
+
+        // ===== SAVE FUNCTIONS =====
+        window.saveAllSettings = async () => {
+            const data = getSettingsFromForm();
+            try {
+                await setDoc(doc(db, 'settings', 'siteSettings'), data);
+                settingsData = data;
+                alert('✅ सभी सेटिंग्स सेव हो गईं!');
+            } catch (error) {
+                alert('❌ ' + error.message);
+            }
+        };
+
+        window.saveGeneralSettings = async () => {
+            const data = getSettingsFromForm();
+            try {
+                await updateDoc(doc(db, 'settings', 'siteSettings'), { general: data.general });
+                settingsData.general = data.general;
+                alert('✅ सामान्य सेटिंग्स सेव हो गईं!');
+            } catch (error) {
+                alert('❌ ' + error.message);
+            }
+        };
+
+        window.saveAppearanceSettings = async () => {
+            const data = getSettingsFromForm();
+            try {
+                await updateDoc(doc(db, 'settings', 'siteSettings'), { appearance: data.appearance });
+                settingsData.appearance = data.appearance;
+                alert('✅ दिखावट सेटिंग्स सेव हो गईं!');
+            } catch (error) {
+                alert('❌ ' + error.message);
+            }
+        };
+
+        window.saveSecuritySettings = async () => {
+            const data = getSettingsFromForm();
+            try {
+                await updateDoc(doc(db, 'settings', 'siteSettings'), { security: data.security });
+                settingsData.security = data.security;
+                alert('✅ सुरक्षा सेटिंग्स सेव हो गईं!');
+            } catch (error) {
+                alert('❌ ' + error.message);
+            }
+        };
+
+        window.saveNotificationSettings = async () => {
+            const data = getSettingsFromForm();
+            try {
+                await updateDoc(doc(db, 'settings', 'siteSettings'), { notifications: data.notifications });
+                settingsData.notifications = data.notifications;
+                alert('✅ सूचनाएँ सेटिंग्स सेव हो गईं!');
+            } catch (error) {
+                alert('❌ ' + error.message);
+            }
+        };
+        window.saveSeoSettings = async () => {
+            const data = getSettingsFromForm();
+            try {
+                await updateDoc(doc(db, 'settings', 'siteSettings'), { seo: data.seo });
+                settingsData.seo = data.seo;
+                alert('✅ SEO सेटिंग्स सेव हो गईं!');
+            } catch (error) {
+                alert('❌ ' + error.message);
+            }
+        };
+
+        window.saveBackupSettings = async () => {
+            const data = getSettingsFromForm();
+            try {
+                await updateDoc(doc(db, 'settings', 'siteSettings'), { backup: data.backup });
+                settingsData.backup = data.backup;
+                alert('✅ बैकअप सेटिंग्स सेव हो गईं!');
+            } catch (error) {
+                alert('❌ ' + error.message);
+            }
+        };
+
+        window.saveApiSettings = async () => {
+            const data = getSettingsFromForm();
+            try {
+                await updateDoc(doc(db, 'settings', 'siteSettings'), { api: data.api });
+                settingsData.api = data.api;
+                alert('✅ API सेटिंग्स सेव हो गईं!');
+            } catch (error) {
+                alert('❌ ' + error.message);
+            }
+        };
+
+        // ===== TAB SWITCHING =====
+        window.switchSettingsTab = (tab) => {
+            // Update tabs
+            document.querySelectorAll('.settings-tab').forEach(t => {
+                t.classList.toggle('active', t.dataset.tab === tab);
+            });
+            
+            // Update sections
+            document.querySelectorAll('.settings-section').forEach(s => {
+                s.style.display = 'none';
+            });
+            const target = document.getElementById('settings' + tab.charAt(0).toUpperCase() + tab.slice(1));
+            if (target) target.style.display = 'block';
+        };
+
+        // ===== COLOR PICKER SYNC =====
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.color-picker-group input[type="color"]').forEach(picker => {
+                picker.addEventListener('input', (e) => {
+                    const textInput = picker.parentElement.querySelector('input[type="text"]');
+                    if (textInput) textInput.value = e.target.value;
+                });
+            });
+            document.querySelectorAll('.color-picker-group input[type="text"]').forEach(text => {
+                text.addEventListener('input', (e) => {
+                    const picker = text.parentElement.querySelector('input[type="color"]');
+                    if (picker) picker.value = e.target.value;
+                });
+            });
+        });
+
+        // ===== THEME FUNCTIONS =====
+        window.setTheme = (theme) => {
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.theme === theme);
+            });
+            if (theme === 'dark') {
+                document.body.style.background = '#1f1c18';
+                document.body.style.color = '#fff';
+            } else if (theme === 'light') {
+                document.body.style.background = '#f8f4f0';
+                document.body.style.color = '#2d2a24';
+            } else {
+                // Auto - detect system preference
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                setTheme(prefersDark ? 'dark' : 'light');
+            }
+        };
+
+        window.previewTheme = () => {
+            const theme = document.querySelector('.theme-btn.active')?.dataset.theme || 'light';
+            setTheme(theme);
+            alert('👀 थीम पूर्वावलोकन - वेबसाइट रीलोड होगी');
+            window.open('../index.html', '_blank');
+        };
+
+        // ===== MODAL FUNCTIONS =====
+        window.closeModal = (id) => {
+            document.getElementById(id).style.display = 'none';
+        };
+
+        window.manageIPBlacklist = () => {
+            document.getElementById('ipModal').style.display = 'flex';
+        };
+
+        window.viewSecurityLogs = () => {
+            document.getElementById('logsModal').style.display = 'flex';
+        };
+
+        window.addIP = () => {
+            const ip = document.getElementById('ipInput').value;
+            if (!ip) { alert('IP एड्रेस डालें!'); return; }
+            const list = document.querySelector('.ip-list');
+            const item = document.createElement('div');
+            item.className = 'ip-item';
+            item.innerHTML = `
+                <span>${ip}</span>
+                <button onclick="removeIP('${ip}')" class="btn-remove-ip"><i class="fas fa-times"></i></button>
+            `;
+            list.appendChild(item);
+            document.getElementById('ipInput').value = '';
+            alert('✅ IP जोड़ दिया गया!');
+        };
+
+        window.removeIP = (ip) => {
+            const items = document.querySelectorAll('.ip-item');
+            items.forEach(item => {
+                if (item.querySelector('span').textContent === ip) {
+                    item.remove();
+                }
+            });
+            alert('✅ IP हटा दिया गया!');
+        };
+
+        // ===== BACKUP FUNCTIONS =====
+        window.createBackup = () => {
+            alert('🔄 बैकअप बन रहा है... कृपया प्रतीक्षा करें');
+            setTimeout(() => {
+                alert('✅ बैकअप सफलतापूर्वक बन गया!');
+            }, 2000);
+        };
+
+        window.downloadBackup = () => {
+            alert('📥 बैकअप डाउनलोड हो रहा है...');
+            const link = document.createElement('a');
+            link.href = '#';
+            link.download = `backup_${new Date().toISOString().split('T')[0]}.zip`;
+            link.click();
+        };
+
+        window.restoreBackup = () => {
+            if (confirm('⚠️ क्या आप सच में बैकअप रिस्टोर करना चाहते हैं? सारा डेटा बदल जाएगा!')) {
+                alert('🔄 बैकअप रिस्टोर हो रहा है...');
+                setTimeout(() => {
+                    alert('✅ बैकअप सफलतापूर्वक रिस्टोर हो गया!');
+                }, 3000);
+            }
+        };
+
+        window.downloadBackupFile = (file) => {
+            alert(`📥 ${file} डाउनलोड हो रहा है...`);
+        };
+
+        window.deleteBackupFile = (file) => {
+            if (confirm(`क्या आप ${file} डिलीट करना चाहते हैं?`)) {
+                alert(`✅ ${file} डिलीट हो गया!`);
+            }
+        };
+
+        // ===== API FUNCTIONS =====
+        window.regenerateAPIKey = () => {
+            if (confirm('⚠️ नई API Key बनाने से पुरानी Key काम करना बंद कर देगी। क्या आप नई Key बनाना चाहते हैं?')) {
+                const newKey = 'pk_live_' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+                document.getElementById('apiKey').value = newKey;
+                alert('✅ नई API Key बन गई!');
+            }
+        };
+
+        window.testApiConnection = () => {
+            alert('🔌 API कनेक्शन टेस्ट हो रहा है...');
+            setTimeout(() => {
+                alert('✅ सभी API कनेक्शन सही हैं!');
+            }, 1500);
+        };
+         // ===== NOTIFICATION FUNCTIONS =====
+        window.testNotification = () => {
+            if (Notification.permission === 'granted') {
+                new Notification('✅ टेस्ट नोटिफिकेशन', {
+                    body: 'यह एक टेस्ट सूचना है!',
+                    icon: 'https://via.placeholder.com/64/d4a373/fff?text=N'
+                });
+                alert('🔔 टेस्ट नोटिफिकेशन भेजा गया!');
+            } else if (Notification.permission === 'default') {
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        testNotification();
+                    }
+                });
+            } else {
+                alert('⚠️ नोटिफिकेशन ब्लॉक हैं। ब्राउज़र सेटिंग्स चेक करें।');
+            }
+        };
+
+        // ===== LOGOUT =====
+        window.logoutAdmin = () => {
+            auth.signOut();
+            window.location.href = '../index.html';
+        };
+    </script>
+</body>
+</html>

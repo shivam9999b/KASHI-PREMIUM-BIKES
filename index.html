@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>वाराणसी Vehicle Sale - बाइक & कार</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/unique.css" />
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <!-- Google Fonts (Local feel) -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-ghat"></i>
+                <span>वाराणसी <span class="highlight">Vehicles</span></span>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html" class="active"><i class="fas fa-home"></i> होम</a></li>
+                <li><a href="listings.html"><i class="fas fa-list"></i> सभी गाड़ियाँ</a></li>
+                <li><a href="post-vehicle.html"><i class="fas fa-plus-circle"></i> गाड़ी डालें</a></li>
+                <li id="authNav">
+                    <a href="login.html" class="btn-nav"><i class="fas fa-sign-in-alt"></i> लॉगिन</a>
+                </li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== HERO SECTION (Varanasi Theme) ===== -->
+    <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="container hero-content">
+            <div class="hero-text">
+                <h1>🚗 <span class="highlight">वाराणसी</span> में <br>अपनी बाइक / कार बेचें</h1>
+                <p>शहर के सबसे भरोसेमंद प्लेटफॉर्म पर <br>बिना किसी कमीशन के अपनी गाड़ी बेचें</p>
+                <div class="hero-buttons">
+                    <a href="post-vehicle.html" class="btn-primary">
+                        <i class="fas fa-plus"></i> गाड़ी डालें
+                    </a>
+                    <a href="listings.html" class="btn-secondary">
+                        <i class="fas fa-search"></i> गाड़ी खोजें
+                    </a>
+                </div>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-box">
+                    <i class="fas fa-bike"></i>
+                    <span id="bikeCount">0</span>
+                    <p>बाइक्स</p>
+                </div>
+                <div class="stat-box">
+                    <i class="fas fa-car"></i>
+                    <span id="carCount">0</span>
+                    <p>कारें</p>
+                </div>
+                <div class="stat-box">
+                    <i class="fas fa-users"></i>
+                    <span id="userCount">0</span>
+                    <p>खुश ग्राहक</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CATEGORIES ===== -->
+    <section class="categories">
+        <div class="container">
+            <h2 class="section-title"><i class="fas fa-tag"></i> क्या बेचना है?</h2>
+            <div class="category-grid">
+                <div class="category-card" onclick="filterCategory('bike')">
+                    <i class="fas fa-motorcycle"></i>
+                    <h3>बाइक</h3>
+                    <p>स्कूटी, मोटरसाइकिल, इलेक्ट्रिक</p>
+                </div>
+                <div class="category-card" onclick="filterCategory('car')">
+                    <i class="fas fa-car"></i>
+                    <h3>कार</h3>
+                    <p>सेडान, SUV, हैचबैक</p>
+                </div>
+                <div class="category-card" onclick="filterCategory('all')">
+                    <i class="fas fa-th-list"></i>
+                    <h3>सभी</h3>
+                    <p>सारी लिस्टिंग देखें</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== LATEST LISTINGS ===== -->
+    <section class="latest-listings">
+        <div class="container">
+            <h2 class="section-title"><i class="fas fa-clock"></i> ताज़ा लिस्टिंग</h2>
+            <div class="listing-grid" id="listingGrid">
+                <!-- JavaScript से डेटा आएगा -->
+            </div>
+            <div class="view-all">
+                <a href="listings.html" class="btn-secondary">सभी देखें →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <h3>🚗 वाराणसी Vehicles</h3>
+                    <p>काशी में गाड़ी बेचने और खरीदने का सबसे आसान माध्यम।</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <a href="listings.html">सभी गाड़ियाँ</a>
+                    <a href="post-vehicle.html">गाड़ी डालें</a>
+                    <a href="#about">हमारे बारे में</a>
+                </div>
+                <div class="footer-contact">
+                    <h4>संपर्क करें</h4>
+                    <p><i class="fas fa-phone"></i> +91 99999 88888</p>
+                    <p><i class="fas fa-envelope"></i> info@varanasivehicles.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> वाराणसी, उत्तर प्रदेश</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 वाराणसी Vehicles | Made with ❤️ in Kashi</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== FIREBASE & SCRIPTS ===== -->
+    <script type="module">
+        // Firebase Config (अपनी डालें)
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, query, orderBy, limit, getDocs, where } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        // === HERO STATS ===
+        async function loadStats() {
+            const bikesSnap = await getDocs(query(collection(db, "vehicles"), where("type", "==", "bike")));
+            const carsSnap = await getDocs(query(collection(db, "vehicles"), where("type", "==", "car")));
+            document.getElementById('bikeCount').textContent = bikesSnap.size;
+            document.getElementById('carCount').textContent = carsSnap.size;
+            document.getElementById('userCount').textContent = Math.floor(Math.random() * 50) + 100;
+        }
+        loadStats();
+
+        // === LATEST LISTINGS ===
+        async function loadLatestListings() {
+            const q = query(collection(db, "vehicles"), orderBy("timestamp", "desc"), limit(6));
+            const snap = await getDocs(q);
+            const grid = document.getElementById('listingGrid');
+            grid.innerHTML = '';
+            snap.forEach(doc => {
+                const data = doc.data();
+                const card = document.createElement('div');
+                card.className = 'listing-card';
+                card.innerHTML = `
+                    <img src="${data.imageUrl || 'https://via.placeholder.com/300x200?text=No+Image'}" alt="${data.title}">
+                    <div class="card-body">
+                        <span class="badge ${data.type}">${data.type === 'bike' ? '🏍️ बाइक' : '🚗 कार'}</span>
+                        <h3>${data.title}</h3>
+                        <p class="price">₹${data.price.toLocaleString()}</p>
+                        <p class="location"><i class="fas fa-map-pin"></i> ${data.city || 'वाराणसी'}</p>
+                        <a href="vehicle-detail.html?id=${doc.id}" class="btn-view">देखें</a>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+        loadLatestListings();
+
+        // === AUTH STATE (Navbar Update) ===
+        onAuthStateChanged(auth, (user) => {
+            const nav = document.getElementById('authNav');
+            if (user) {
+                nav.innerHTML = `<a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> लॉगआउट</a>`;
+                document.getElementById('logoutBtn').addEventListener('click', () => {
+                    auth.signOut();
+                    window.location.href = 'index.html';
+                });
+            } else {
+                nav.innerHTML = `<a href="login.html" class="btn-nav"><i class="fas fa-sign-in-alt"></i> लॉगिन</a>`;
+            }
+        });
+
+        // === FILTER CATEGORY (Redirect) ===
+        window.filterCategory = (type) => {
+            window.location.href = `listings.html?filter=${type}`;
+        };
+
+        // === HAMBURGER MENU ===
+        document.getElementById('hamburger').addEventListener('click', () => {
+            document.getElementById('navLinks').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

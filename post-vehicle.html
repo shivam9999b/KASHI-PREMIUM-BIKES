@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>गाड़ी डालें - वाराणसी Vehicles</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/post.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-ghat"></i>
+                <span>वाराणसी <span class="highlight">Vehicles</span></span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> होम</a></li>
+                <li><a href="listings.html"><i class="fas fa-list"></i> सभी गाड़ियाँ</a></li>
+                <li><a href="post-vehicle.html" class="active"><i class="fas fa-plus-circle"></i> गाड़ी डालें</a></li>
+                <li id="authNav"><a href="login.html" class="btn-nav">लॉगिन</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <section class="post-section">
+        <div class="container">
+            <div class="post-header">
+                <h1><i class="fas fa-plus-circle"></i> नई गाड़ी डालें</h1>
+                <p>वाराणसी में अपनी बाइक या कार बेचें - पूरी तरह से मुफ्त</p>
+            </div>
+
+            <div class="post-card">
+                <form id="postForm">
+                    <!-- ===== VEHICLE TYPE ===== -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-motorcycle"></i> गाड़ी का प्रकार <span class="required">*</span></label>
+                            <select id="vehicleType" required>
+                                <option value="">चुनें...</option>
+                                <option value="bike">🏍️ बाइक</option>
+                                <option value="car">🚗 कार</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-tag"></i> श्रेणी <span class="required">*</span></label>
+                            <select id="vehicleCategory" required>
+                                <option value="">चुनें...</option>
+                                <option value="scooter">स्कूटर / स्कूटी</option>
+                                <option value="motorcycle">मोटरसाइकिल</option>
+                                <option value="electric">इलेक्ट्रिक वाहन</option>
+                                <option value="sedan">सेडान</option>
+                                <option value="suv">SUV</option>
+                                <option value="hatchback">हैचबैक</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- ===== TITLE & PRICE ===== -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-heading"></i> टाइटल <span class="required">*</span></label>
+                            <input type="text" id="vehicleTitle" placeholder="जैसे: Honda Activa 2023" required />
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-rupee-sign"></i> कीमत (₹) <span class="required">*</span></label>
+                            <input type="number" id="vehiclePrice" placeholder="45000" required min="1" />
+                        </div>
+                    </div>
+
+                    <!-- ===== YEAR & KM ===== -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-calendar-alt"></i> मॉडल वर्ष <span class="required">*</span></label>
+                            <input type="number" id="vehicleYear" placeholder="2023" required min="1990" max="2026" />
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-tachometer-alt"></i> किलोमीटर चला <span class="required">*</span></label>
+                            <input type="number" id="vehicleKm" placeholder="12000" required min="0" />
+                        </div>
+                    </div>
+
+                    <!-- ===== OWNERSHIP ===== -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-user-tie"></i> मालिकाना हक <span class="required">*</span></label>
+                            <select id="vehicleOwnership" required>
+                                <option value="">चुनें...</option>
+                                <option value="first">पहली मालिक</option>
+                                <option value="second">दूसरी मालिक</option>
+                                <option value="third">तीसरी मालिक</option>
+                                <option value="fourth+">चौथी या ज्यादा</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-gas-pump"></i> फ्यूल टाइप <span class="required">*</span></label>
+                            <select id="vehicleFuel" required>
+                                <option value="">चुनें...</option>
+                                <option value="petrol">पेट्रोल</option>
+                                <option value="diesel">डीजल</option>
+                                <option value="electric">इलेक्ट्रिक</option>
+                                <option value="cng">CNG</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- ===== DESCRIPTION ===== -->
+                    <div class="form-group">
+                        <label><i class="fas fa-align-left"></i> विवरण <span class="required">*</span></label>
+                        <textarea id="vehicleDesc" rows="4" placeholder="गाड़ी की कंडीशन, फीचर्स, एक्स्ट्रा चीज़ें..." required></textarea>
+                    </div>
+
+                    <!-- ===== CITY ===== -->
+                    <div class="form-group">
+                        <label><i class="fas fa-map-marker-alt"></i> शहर <span class="required">*</span></label>
+                        <input type="text" id="vehicleCity" placeholder="वाराणसी" value="वाराणसी" required />
+                    </div>
+
+                    <!-- ===== IMAGE UPLOAD ===== -->
+                    <div class="form-group">
+                        <label><i class="fas fa-image"></i> गाड़ी की फोटो <span class="required">*</span></label>
+                        <div class="upload-area" id="uploadArea">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>फोटो अपलोड करें</p>
+                            <span>PNG, JPG, JPEG (Max 5MB)</span>
+                            <input type="file" id="vehicleImage" accept="image/*" required />
+                        </div>
+                        <div id="imagePreview" style="display:none;">
+                            <img id="previewImg" src="#" alt="Preview" />
+                            <button type="button" onclick="removeImage()"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- ===== CONTACT ===== -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-phone"></i> मोबाइल नंबर <span class="required">*</span></label>
+                            <input type="tel" id="contactPhone" placeholder="99999 88888" required />
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fab fa-whatsapp"></i> WhatsApp नंबर</label>
+                            <input type="tel" id="contactWhatsapp" placeholder="99999 88888" />
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-post">
+                        <i class="fas fa-spinner fa-spin" id="postSpinner" style="display:none;"></i>
+                        <span id="postText"><i class="fas fa-rocket"></i> गाड़ी डालें</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <script type="module">
+        import { auth, db, storage } from './js/firebase.js';
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { addDoc, collection } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+
+        const form = document.getElementById('postForm');
+        const spinner = document.getElementById('postSpinner');
+        const text = document.getElementById('postText');
+
+        // ===== CHECK AUTH =====
+        onAuthStateChanged(auth, (user) => {
+            const nav = document.getElementById('authNav');
+            if (!user) {
+                alert('⚠️ कृपया पहले लॉगिन करें!');
+                window.location.href = 'login.html';
+            } else {
+                nav.innerHTML = `<a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> लॉगआउट</a>`;
+                document.getElementById('logoutBtn')?.addEventListener('click', () => {
+                    auth.signOut();
+                    window.location.href = 'index.html';
+                });
+            }
+        });
+
+        // ===== IMAGE UPLOAD PREVIEW =====
+        const fileInput = document.getElementById('vehicleImage');
+        const previewDiv = document.getElementById('imagePreview');
+        const previewImg = document.getElementById('previewImg');
+        const uploadArea = document.getElementById('uploadArea');
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    previewImg.src = e.target.result;
+                    previewDiv.style.display = 'block';
+                    uploadArea.style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        window.removeImage = () => {
+            fileInput.value = '';
+            previewDiv.style.display = 'none';
+            uploadArea.style.display = 'block';
+        };
+
+        // ===== UPLOAD TO FIREBASE =====
+        async function uploadImage(file) {
+            const storageRef = ref(storage, 'vehicles/' + Date.now() + '_' + file.name);
+            const uploadTask = uploadBytesResumable(storageRef, file);
+
+            return new Promise((resolve, reject) => {
+                uploadTask.on('state_changed', null,
+                    (error) => reject(error),
+                    async () => {
+                        const url = await getDownloadURL(uploadTask.snapshot.ref);
+                        resolve(url);
+                    }
+                );
+            });
+        }
+
+        // ===== SUBMIT FORM =====
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const user = auth.currentUser;
+            if (!user) {
+                alert('⚠️ कृपया लॉगिन करें!');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const file = fileInput.files[0];
+            if (!file) {
+                alert('⚠️ कृपया गाड़ी की फोटो अपलोड करें!');
+                return;
+            }
+
+            spinner.style.display = 'inline-block';
+            text.innerHTML = 'गाड़ी डाली जा रही...';
+
+            try {
+                // Upload Image
+                const imageUrl = await uploadImage(file);
+
+                // Save to Firestore
+                const data = {
+                    type: document.getElementById('vehicleType').value,
+                    category: document.getElementById('vehicleCategory').value,
+                    title: document.getElementById('vehicleTitle').value,
+                    price: parseInt(document.getElementById('vehiclePrice').value),
+                    year: parseInt(document.getElementById('vehicleYear').value),
+                    km: parseInt(document.getElementById('vehicleKm').value),
+                    ownership: document.getElementById('vehicleOwnership').value,
+                    fuel: document.getElementById('vehicleFuel').value,
+                    description: document.getElementById('vehicleDesc').value,
+                    city: document.getElementById('vehicleCity').value || 'वाराणसी',
+                    phone: document.getElementById('contactPhone').value,
+                    whatsapp: document.getElementById('contactWhatsapp').value || '',
+                    imageUrl: imageUrl,
+                    userId: user.uid,
+                    userEmail: user.email,
+                    timestamp: new Date().toISOString()
+                };
+
+                await addDoc(collection(db, 'vehicles'), data);
+
+                alert('✅ गाड़ी सफलतापूर्वक डाल दी गई! 🎉');
+                window.location.href = 'listings.html';
+
+            } catch (error) {
+                alert('❌ ' + error.message);
+                spinner.style.display = 'none';
+                text.innerHTML = '<i class="fas fa-rocket"></i> गाड़ी डालें';
+            }
+        });
+
+        // ===== HAMBURGER =====
+        document.getElementById('hamburger').addEventListener('click', () => {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

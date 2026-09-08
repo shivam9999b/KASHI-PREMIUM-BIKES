@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>सभी गाड़ियाँ - वाराणसी Vehicles</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/listings.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-ghat"></i>
+                <span>वाराणसी <span class="highlight">Vehicles</span></span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> होम</a></li>
+                <li><a href="listings.html" class="active"><i class="fas fa-list"></i> सभी गाड़ियाँ</a></li>
+                <li><a href="post-vehicle.html"><i class="fas fa-plus-circle"></i> गाड़ी डालें</a></li>
+                <li id="authNav"><a href="login.html" class="btn-nav">लॉगिन</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <section class="listings-section">
+        <div class="container">
+            <div class="listings-header">
+                <h1><i class="fas fa-list"></i> सभी गाड़ियाँ</h1>
+                <p>वाराणसी में उपलब्ध बाइक्स और कारें</p>
+            </div>
+
+            <!-- ===== FILTERS ===== -->
+            <div class="filters-bar">
+                <div class="filter-group">
+                    <button class="filter-btn active" data-filter="all" onclick="applyFilter('all')">
+                        <i class="fas fa-th-list"></i> सभी
+                    </button>
+                    <button class="filter-btn" data-filter="bike" onclick="applyFilter('bike')">
+                        <i class="fas fa-motorcycle"></i> बाइक
+                    </button>
+                    <button class="filter-btn" data-filter="car" onclick="applyFilter('car')">
+                        <i class="fas fa-car"></i> कार
+                    </button>
+                </div>
+
+                <div class="search-group">
+                    <input type="text" id="searchInput" placeholder="🔍 गाड़ी खोजें..." oninput="searchVehicles()" />
+                    <button onclick="clearSearch()"><i class="fas fa-times"></i></button>
+                </div>
+
+                <div class="sort-group">
+                    <select id="sortSelect" onchange="sortVehicles()">
+                        <option value="latest">नई → पुरानी</option>
+                        <option value="oldest">पुरानी → नई</option>
+                        <option value="price-low">कीमत: कम → ज्यादा</option>
+                        <option value="price-high">कीमत: ज्यादा → कम</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- ===== LISTINGS GRID ===== -->
+            <div class="listing-grid" id="listingGrid">
+                <!-- JavaScript से आएगा -->
+            </div>
+
+            <!-- ===== LOADING / NO DATA ===== -->
+            <div id="loadingSpinner" style="text-align:center;padding:60px;display:none;">
+                <i class="fas fa-spinner fa-spin" style="font-size:2rem;color:#d4a373;"></i>
+                <p style="margin-top:10px;color:#888;">गाड़ियाँ लोड हो रही...</p>
+            </div>
+
+            <div id="noData" style="text-align:center;padding:60px;display:none;">
+                <i class="fas fa-search" style="font-size:3rem;color:#ddd;"></i>
+                <h3 style="margin:15px 0 5px;color:#2d2a24;">कोई गाड़ी नहीं मिली</h3>
+                <p style="color:#888;">अपनी गाड़ी डालें और पहले बनें!</p>
+                <a href="post-vehicle.html" class="btn-primary" style="display:inline-block;margin-top:15px;">
+                    <i class="fas fa-plus"></i> गाड़ी डालें
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>© 2026 वाराणसी Vehicles | Made with ❤️ in Kashi</p>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { db } from './js/firebase.js';
+        import { collection, getDocs, query, orderBy, where } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { auth } from './js/firebase.js';
+
+        let allVehicles = [];
+        let currentFilter = 'all';
+        let currentSort = 'latest';
+
+        // ===== AUTH =====
+        onAuthStateChanged(auth, (user) => {
+            const nav = document.getElementById('authNav');
+            if (user) {
+                nav.innerHTML = `<a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> लॉगआउट</a>`;
+                document.getElementById('logoutBtn')?.addEventListener('click', () => {
+                    auth.signOut();
+                    window.location.href = 'index.html';
+                });
+            }
+        });
+
+        // ===== LOAD VEHICLES =====
+        async function loadVehicles() {
+            const spinner = document.getElementById('loadingSpinner');
+            const grid = document.getElementById('listingGrid');
+            const noData = document.getElementById('noData');
+
+            spinner.style.display = 'block';
+            grid.innerHTML = '';
+            noData.style.display = 'none';
+
+            try {
+                let q = collection(db, 'vehicles');
+                q = query(q, orderBy('timestamp', 'desc'));
+                const snap = await getDocs(q);
+
+                allVehicles = snap.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data()
+                }));
+
+                renderVehicles();
+
+            } catch (error) {
+                console.error('Error:', error);
+                grid.innerHTML = `<p style="text-align:center;color:#e74c3c;">❌ डेटा लोड नहीं हुआ: ${error.message}</p>`;
+            } finally {
+                spinner.style.display = 'none';
+            }
+        }
+
+        // ===== RENDER VEHICLES =====
+        function renderVehicles() {
+            const grid = document.getElementById('listingGrid');
+            const noData = document.getElementById('noData');
+
+            let filtered = allVehicles;
+
+            // Filter
+            if (currentFilter !== 'all') {
+                filtered = filtered.filter(v => v.type === currentFilter);
+            }
+
+            // Search
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            if (searchTerm) {
+                filtered = filtered.filter(v =>
+                    v.title?.toLowerCase().includes(searchTerm) ||
+                    v.description?.toLowerCase().includes(searchTerm) ||
+                    v.city?.toLowerCase().includes(searchTerm)
+                );
+            }
+
+            // Sort
+            switch (currentSort) {
+                case 'latest':
+                    filtered.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                    break;
+                case 'oldest':
+                    filtered.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+                    break;
+                case 'price-low':
+                    filtered.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-high':
+                    filtered.sort((a, b) => b.price - a.price);
+                    break;
+            }
+
+            if (filtered.length === 0) {
+                noData.style.display = 'block';
+                grid.innerHTML = '';
+                return;
+            }
+
+            noData.style.display = 'none';
+            grid.innerHTML = filtered.map(v => `
+                <div class="listing-card">
+                    <img src="${v.imageUrl || 'https://via.placeholder.com/300x200?text=No+Image'}" alt="${v.title}" loading="lazy" />
+                    <div class="card-body">
+                        <span class="badge ${v.type}">${v.type === 'bike' ? '🏍️ बाइक' : '🚗 कार'}</span>
+                        <h3>${v.title || 'No Title'}</h3>
+                        <p class="price">₹${(v.price || 0).toLocaleString()}</p>
+                        <p class="location"><i class="fas fa-map-pin"></i> ${v.city || 'वाराणसी'}</p>
+                        <div class="vehicle-meta">
+                            <span><i class="fas fa-calendar"></i> ${v.year || 'N/A'}</span>
+                            <span><i class="fas fa-tachometer-alt"></i> ${v.km?.toLocaleString() || 0} km</span>
+                        </div>
+                        <a href="vehicle-detail.html?id=${v.id}" class="btn-view">देखें</a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ===== FILTER, SEARCH, SORT FUNCTIONS =====
+        window.applyFilter = (filter) => {
+            currentFilter = filter;
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.filter === filter);
+            });
+            renderVehicles();
+        };
+
+        window.searchVehicles = () => renderVehicles();
+
+        window.clearSearch = () => {
+            document.getElementById('searchInput').value = '';
+            renderVehicles();
+        };
+
+        window.sortVehicles = () => {
+            const select = document.getElementById('sortSelect');
+            currentSort = select.value;
+            renderVehicles();
+        };
+
+        // ===== HAMBURGER =====
+        document.getElementById('hamburger').addEventListener('click', () => {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        // ===== LOAD ON PAGE =====
+        // Check URL params
+        const urlParams = new URLSearchParams(window.location.search);
+        const filterParam = urlParams.get('filter');
+        if (filterParam) {
+            currentFilter = filterParam;
+            setTimeout(() => {
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.filter === filterParam);
+                });
+            }, 100);
+        }
+
+        loadVehicles();
+    </script>
+</body>
+</html>

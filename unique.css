@@ -1,0 +1,94 @@
+/* ===== Unique Varanasi Theme Additions ===== */
+
+/* === Banaras Ghat Pattern Background === */
+.hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 80'%3E%3Cpath d='M0,80 L1200,80 L1200,40 Q900,80 600,40 Q300,0 0,40 Z' fill='%23f8f4f0'/%3E%3C/svg%3E") no-repeat bottom/100% 100%;
+}
+
+/* === Card Hover Glow Effect === */
+.listing-card:hover {
+    box-shadow: 0 12px 40px rgba(212, 163, 115, 0.2);
+}
+
+.listing-card .card-body .price::before {
+    content: '💰 ';
+    font-size: 0.9rem;
+}
+
+/* === Category Card Unique === */
+.category-card:nth-child(1) {
+    background: linear-gradient(135deg, #f8f4f0, #fff5e6);
+}
+.category-card:nth-child(2) {
+    background: linear-gradient(135deg, #f8f4f0, #e6f0ff);
+}
+.category-card:nth-child(3) {
+    background: linear-gradient(135deg, #f8f4f0, #f0f0e8);
+}
+
+/* === Scroll Animation on Cards === */
+.listing-card {
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards;
+}
+
+.listing-card:nth-child(1) { animation-delay: 0.1s; }
+.listing-card:nth-child(2) { animation-delay: 0.2s; }
+.listing-card:nth-child(3) { animation-delay: 0.3s; }
+.listing-card:nth-child(4) { animation-delay: 0.4s; }
+.listing-card:nth-child(5) { animation-delay: 0.5s; }
+.listing-card:nth-child(6) { animation-delay: 0.6s; }
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* === Navbar Active Link Underline === */
+.nav-links a.active::after {
+    content: '';
+    display: block;
+    width: 60%;
+    height: 3px;
+    background: #d4a373;
+    border-radius: 10px;
+    margin: 4px auto 0;
+}
+
+/* === Floating Action Button (Quick Post) === */
+.floating-post-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #d4a373;
+    color: #fff;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    box-shadow: 0 8px 30px rgba(212, 163, 115, 0.4);
+    z-index: 999;
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+}
+
+.floating-post-btn:hover {
+    transform: scale(1.1);
+    background: #b8895e;
+}

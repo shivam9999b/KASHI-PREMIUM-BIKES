@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>रिपोर्ट्स - Admin Panel</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="css/admin.css" />
+    <link rel="stylesheet" href="css/reports.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.min.css" rel="stylesheet" />
+</head>
+<body class="admin-page">
+
+    <!-- ===== ADMIN NAVBAR ===== -->
+    <nav class="admin-navbar">
+        <div class="admin-container">
+            <div class="admin-logo">
+                <i class="fas fa-ghat"></i>
+                <span>Admin <span class="highlight">Panel</span></span>
+            </div>
+            <div class="admin-user">
+                <span id="adminEmail">admin@email.com</span>
+                <img src="https://ui-avatars.com/api/?name=Admin&background=d4a373&color=fff" alt="Admin" />
+                <button onclick="logoutAdmin()" class="btn-logout-admin">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="admin-wrapper">
+        <!-- ===== SIDEBAR ===== -->
+        <aside class="admin-sidebar">
+            <ul class="sidebar-menu">
+                <li><a href="index.html"><i class="fas fa-chart-pie"></i><span>Dashboard</span></a></li>
+                <li><a href="manage-vehicles.html"><i class="fas fa-car"></i><span>गाड़ियाँ मैनेज करें</span></a></li>
+                <li><a href="manage-users.html"><i class="fas fa-users"></i><span>यूज़र मैनेज करें</span></a></li>
+                <li class="active"><a href="reports.html"><i class="fas fa-chart-bar"></i><span>रिपोर्ट्स</span></a></li>
+                <li><a href="settings.html"><i class="fas fa-cog"></i><span>सेटिंग्स</span></a></li>
+            </ul>
+        </aside>
+
+        <!-- ===== MAIN CONTENT ===== -->
+        <main class="admin-content">
+            <div class="admin-header">
+                <h1><i class="fas fa-chart-bar"></i> रिपोर्ट्स & Analytics</h1>
+                <div class="admin-actions">
+                    <button onclick="exportAllReports()" class="btn-export">
+                        <i class="fas fa-file-export"></i> सभी रिपोर्ट डाउनलोड करें
+                    </button>
+                    <button onclick="refreshReports()" class="btn-refresh">
+                        <i class="fas fa-sync"></i> रिफ्रेश
+                    </button>
+                </div>
+            </div>
+
+            <!-- ===== DATE FILTER ===== -->
+            <div class="report-filters">
+                <div class="filter-group">
+                    <label><i class="fas fa-calendar-alt"></i> तारीख रेंज</label>
+                    <div class="date-range">
+                        <input type="date" id="startDate" />
+                        <span>से</span>
+                        <input type="date" id="endDate" />
+                    </div>
+                </div>
+                <div class="filter-group">
+                    <label>रिपोर्ट टाइप</label>
+                    <select id="reportType" onchange="changeReportType()">
+                        <option value="overview">📊 ओवरव्यू</option>
+                        <option value="vehicles">🚗 गाड़ियाँ</option>
+                        <option value="users">👥 यूज़र</option>
+                        <option value="revenue">💰 रेवेन्यू</option>
+                        <option value="location">📍 लोकेशन</option>
+                    </select>
+                </div>
+                <button onclick="applyDateFilter()" class="btn-apply-filter">
+                    <i class="fas fa-filter"></i> Apply Filter
+                </button>
+            </div>
+
+            <!-- ===== REPORT TYPE SELECTOR ===== -->
+            <div class="report-tabs">
+                <button class="report-tab active" data-report="overview" onclick="switchReport('overview')">
+                    <i class="fas fa-chart-pie"></i> ओवरव्यू
+                </button>
+                <button class="report-tab" data-report="vehicles" onclick="switchReport('vehicles')">
+                    <i class="fas fa-car"></i> गाड़ियाँ
+                </button>
+                <button class="report-tab" data-report="users" onclick="switchReport('users')">
+                    <i class="fas fa-users"></i> यूज़र
+                </button>
+                <button class="report-tab" data-report="revenue" onclick="switchReport('revenue')">
+                    <i class="fas fa-coins"></i> रेवेन्यू
+                </button>
+                <button class="report-tab" data-report="location" onclick="switchReport('location')">
+                    <i class="fas fa-map-marked-alt"></i> लोकेशन
+                </button>
+            </div>
+
+            <!-- ===== REPORT CONTENT ===== -->
+            <div id="reportContent">
+                <!-- Overview Report -->
+                <div id="reportOverview" class="report-section active">
+                    <div class="report-stats-grid">
+                        <div class="report-stat-card">
+                            <div class="stat-icon" style="background:#e3f0ff;color:#2a6bb0;">
+                                <i class="fas fa-car"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="rTotalVehicles">0</h3>
+                                <p>कुल गाड़ियाँ</p>
+                            </div>
+                            <div class="stat-change up">
+                                <i class="fas fa-arrow-up"></i> <span id="rVehicleGrowth">0%</span>
+                            </div>
+                        </div>
+                        <div class="report-stat-card">
+                            <div class="stat-icon" style="background:#fff0e0;color:#b85c1a;">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="rTotalUsers">0</h3>
+                                <p>कुल यूज़र</p>
+                            </div>
+                            <div class="stat-change up">
+                                <i class="fas fa-arrow-up"></i> <span id="rUserGrowth">0%</span>
+                            </div>
+                        </div>
+                        <div class="report-stat-card">
+                            <div class="stat-icon" style="background:#e0f7e0;color:#2d7d46;">
+                                <i class="fas fa-coins"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="rTotalRevenue">₹0</h3>
+                                <p>कुल रेवेन्यू</p>
+                            </div>
+                            <div class="stat-change up">
+                                <i class="fas fa-arrow-up"></i> <span id="rRevenueGrowth">0%</span>
+                            </div>
+                        </div>
+                        <div class="report-stat-card">
+                            <div class="stat-icon" style="background:#f0e0ff;color:#6b3fa0;">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="rTotalViews">0</h3>
+                                <p>कुल विज़िट्स</p>
+                            </div>
+                            <div class="stat-change up">
+                                <i class="fas fa-arrow-up"></i> <span id="rViewsGrowth">0%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Overview Charts -->
+                    <div class="charts-grid">
+                        <div class="chart-card">
+                            <h3><i class="fas fa-chart-line"></i> गाड़ियों का रुझान (पिछले 30 दिन)</h3>
+                            <canvas id="trendChart"></canvas>
+                        </div>
+                        <div class="chart-card">
+                            <h3><i class="fas fa-chart-pie"></i> गाड़ियों का वितरण</h3>
+                            <canvas id="distributionChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="charts-grid">
+                        <div class="chart-card">
+                            <h3><i class="fas fa-chart-bar"></i> टॉप शहर</h3>
+                            <canvas id="topCitiesChart"></canvas>
+                        </div>
+                        <div class="chart-card">
+                            <h3><i class="fas fa-chart-doughnut"></i> प्रकार अनुसार गाड़ियाँ</h3>
+                            <canvas id="typeDistributionChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vehicles Report -->
+                <div id="reportVehicles" class="report-section" style="display:none;">
+                    <div class="report-actions">
+                        <button onclick="exportVehiclesReport()" class="btn-export-small">
+                            <i class="fas fa-file-excel"></i> Excel
+                        </button>
+                        <button onclick="exportVehiclesPDF()" class="btn-export-small">
+                            <i class="fas fa-file-pdf"></i> PDF
+                        </button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="admin-table" id="vehiclesReportTable">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>गाड़ी</th>
+                                    <th>प्रकार</th>
+                                    <th>कीमत</th>
+                                    <th>शहर</th>
+                                    <th>मालिक</th>
+                                    <th>तारीख</th>
+                                </tr>
+                            </thead>
+                            <tbody id="vehiclesReportBody">
+                                <!-- JavaScript से आएगा -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Users Report -->
+                <div id="reportUsers" class="report-section" style="display:none;">
+                    <div class="report-actions">
+                        <button onclick="exportUsersReport()" class="btn-export-small">
+                            <i class="fas fa-file-excel"></i> Excel
+                        </button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="admin-table" id="usersReportTable">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>यूज़र</th>
+                                    <th>ईमेल</th>
+                                    <th>गाड़ियाँ</th>
+                                    <th>कुल कीमत</th>
+                                    <th>ज्वाइन तारीख</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersReportBody">
+                                <!-- JavaScript से आएगा -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Revenue Report -->
+                <div id="reportRevenue" class="report-section" style="display:none;">
+                    <div class="charts-grid">
+                        <div class="chart-card" style="grid-column:1/-1;">
+                            <h3><i class="fas fa-chart-line"></i> रेवेन्यू ट्रेंड (महीने के हिसाब से)</h3>
+                            <canvas id="revenueTrendChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="charts-grid">
+                        <div class="chart-card">
+                            <h3><i class="fas fa-chart-pie"></i> प्रकार अनुसार रेवेन्यू</h3>
+                            <canvas id="revenueByTypeChart"></canvas>
+                        </div>
+                        <div class="chart-card">
+                            <h3><i class="fas fa-chart-bar"></i> शहर अनुसार रेवेन्यू</h3>
+                            <canvas id="revenueByCityChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Location Report -->
+                <div id="reportLocation" class="report-section" style="display:none;">
+                    <div class="charts-grid">
+                        <div class="chart-card" style="grid-column:1/-1;">
+                            <h3><i class="fas fa-map-marked-alt"></i> शहर अनुसार गाड़ियाँ</h3>
+                            <canvas id="locationChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>शहर</th>
+                                    <th>कुल गाड़ियाँ</th>
+                                    <th>बाइक</th>
+                                    <th>कार</th>
+                                    <th>औसत कीमत</th>
+                                </tr>
+                            </thead>
+                            <tbody id="locationReportBody">
+                                <!-- JavaScript से आएगा -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ===== CHARTS.JS ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+
+    <script type="module">
+        import { auth, db } from '../js/firebase.js';
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { collection, getDocs, query, orderBy, where } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        
+        let allVehicles = [];
+        let allUsers = [];
+        let currentReportType = 'overview';
+        let charts = {};
+        let filteredVehicles = [];
+
+        // ===== AUTH CHECK =====
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                window.location.href = '../login.html';
+                return;
+            }
+            const adminEmails = ['admin@bike-sell.com', 'your-email@gmail.com'];
+            if (!adminEmails.includes(user.email)) {
+                alert('❌ Admin Access नहीं है!');
+                window.location.href = '../index.html';
+                return;
+            }
+            document.getElementById('adminEmail').textContent = user.email;
+            loadReports();
+        });
+
+        // ===== LOAD REPORTS =====
+        async function loadReports() {
+            try {
+                const snap = await getDocs(collection(db, 'vehicles'));
+                allVehicles = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                
+                // Set default date range (last 30 days)
+                const endDate = new Date();
+                const startDate = new Date();
+                startDate.setDate(startDate.getDate() - 30);
+                document.getElementById('startDate').value = startDate.toISOString().split('T')[0];
+                document.getElementById('endDate').value = endDate.toISOString().split('T')[0];
+                
+                filteredVehicles = [...allVehicles];
+                generateAllReports();
+            } catch (error) {
+                console.error('Error loading reports:', error);
+            }
+        }
+
+        // ===== GENERATE ALL REPORTS =====
+        function generateAllReports() {
+            generateOverviewReport();
+            generateVehiclesReport();
+            generateUsersReport();
+            generateRevenueReport();
+            generateLocationReport();
+        }
+
+        // ===== OVERVIEW REPORT =====
+        function generateOverviewReport() {
+            const vehicles = filteredVehicles;
+            const bikes = vehicles.filter(v => v.type === 'bike');
+            const cars = vehicles.filter(v => v.type === 'car');
+            
+            // Stats
+            document.getElementById('rTotalVehicles').textContent = vehicles.length;
+            document.getElementById('rTotalUsers').textContent = getUniqueUsers(vehicles).length;
+            document.getElementById('rTotalRevenue').textContent = '₹' + getTotalRevenue(vehicles).toLocaleString();
+            document.getElementById('rTotalViews').textContent = getTotalViews(vehicles);
+            
+            // Growth (mock)
+            document.getElementById('rVehicleGrowth').textContent = (Math.random() * 20 + 5).toFixed(1) + '%';
+            document.getElementById('rUserGrowth').textContent = (Math.random() * 15 + 3).toFixed(1) + '%';
+            document.getElementById('rRevenueGrowth').textContent = (Math.random() * 25 + 8).toFixed(1) + '%';
+            document.getElementById('rViewsGrowth').textContent = (Math.random() * 30 + 10).toFixed(1) + '%';
+
+            // Charts
+            initOverviewCharts(vehicles, bikes, cars);
+        }
+
+        // ===== OVERVIEW CHARTS =====
+        function initOverviewCharts(vehicles, bikes, cars) {
+            // Destroy existing charts
+            Object.values(charts).forEach(c => c?.destroy());
+            charts = {};
+
+            // Trend Chart (Last 30 days)
+            const trendData = generateTrendData(vehicles, 30);
+            charts.trend = new Chart(document.getElementById('trendChart'), {
+                type: 'line',
+                data: {
+                    labels: trendData.labels,
+                    datasets: [{
+                        label: 'नई गाड़ियाँ',
+                        data: trendData.values,
+                        borderColor: '#d4a373',
+                        backgroundColor: 'rgba(212, 163, 115, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, ticks: { stepSize: 1 } }
+                    }
+                }
+            });
+
+            // Distribution Chart (Pie)
+            charts.distribution = new Chart(document.getElementById('distributionChart'), {
+                type: 'pie',
+                data: {
+                    labels: ['बाइक', 'कार'],
+                    datasets: [{
+                        data: [bikes.length, cars.length],
+                        backgroundColor: ['#2a6bb0', '#b85c1a'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+
+            // Top Cities Chart
+            const cityData = getCityData(vehicles);
+            charts.topCities = new Chart(document.getElementById('topCitiesChart'), {
+                type: 'bar',
+                data: {
+                    labels: cityData.labels.slice(0, 5),
+                    datasets: [{
+                        label: 'गाड़ियाँ',
+                        data: cityData.values.slice(0, 5),
+                        backgroundColor: 'rgba(212, 163, 115, 0.6)',
+                        borderColor: '#d4a373',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, ticks: { stepSize: 1 } }
+                    }
+                }
+            });
+
+            // Type Distribution
+            const typeData = getTypeData(vehicles);
+            charts.typeDistribution = new Chart(document.getElementById('typeDistributionChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: typeData.labels,
+                    datasets: [{
+                        data: typeData.values,
+                        backgroundColor: ['#2a6bb0', '#b85c1a', '#d4a373', '#2d7d46', '#6b3fa0'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+        }
+
+        // ===== VEHICLES REPORT =====
+        function generateVehiclesReport() {
+            const tbody = document.getElementById('vehiclesReportBody');
+            const vehicles = filteredVehicles.slice(0, 50);
+            
+            tbody.innerHTML = vehicles.map((v, i) => `
+                <tr>
+                    <td>${i + 1}</td>
+                    <td>
+                        <div class="vehicle-info">
+                            <img src="${v.imageUrl || 'https://via.placeholder.com/40'}" 
+                                 alt="${v.title}" 
+                                 onerror="this.src='https://via.placeholder.com/40'" />
+                            <span>${v.title || 'No Title'}</span>
+                        </div>
+                    </td>
+                    <td><span class="badge ${v.type}">${v.type === 'bike' ? '🏍️ बाइक' : '🚗 कार'}</span></td>
+                    <td>₹${(v.price || 0).toLocaleString()}</td>
+                    <td>${v.city || 'वाराणसी'}</td>
+                    <td>${v.userEmail || 'N/A'}</td>
+                    <td>${formatDate(v.timestamp)}</td>
+                </tr>
+            `).join('');
+        }
+
+        // ===== USERS REPORT =====
+        function generateUsersReport() {
+            const tbody = document.getElementById('usersReportBody');
+            const users = getUniqueUsersWithVehicles(filteredVehicles);
+            
+            tbody.innerHTML = users.map((u, i) => `
+                <tr>
+                    <td>${i + 1}</td>
+                    <td>${u.email || 'N/A'}</td>
+                    <td>${u.email || 'N/A'}</td>
+                    <td>${u.vehicleCount || 0}</td>
+                    <td>₹${(u.totalPrice || 0).toLocaleString()}</td>
+                    <td>${formatDate(u.joined)}</td>
+                </tr>
+            `).join('');
+        }
+
+        // ===== REVENUE REPORT =====
+        function generateRevenueReport() {
+            // Revenue Trend Chart
+            const revenueData = generateRevenueData(filteredVehicles);
+            charts.revenueTrend = new Chart(document.getElementById('revenueTrendChart'), {
+                type: 'line',
+                data: {
+                    labels: revenueData.labels,
+                    datasets: [{
+                        label: 'रेवेन्यू (₹)',
+                        data: revenueData.values,
+                        borderColor: '#2d7d46',
+                        backgroundColor: 'rgba(45, 125, 70, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: (value) => '₹' + value.toLocaleString()
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Revenue by Type
+            const byType = getRevenueByType(filteredVehicles);
+            charts.revenueByType = new Chart(document.getElementById('revenueByTypeChart'), {
+                type: 'pie',
+                data: {
+                    labels: byType.labels,
+                    datasets: [{
+                        data: byType.values,
+                        backgroundColor: ['#2a6bb0', '#b85c1a'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => {
+                                    const value = context.parsed;
+                                    return '₹' + value.toLocaleString();
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Revenue by City
+            const byCity = getRevenueByCity(filteredVehicles);
+            charts.revenueByCity = new Chart(document.getElementById('revenueByCityChart'), {
+                type: 'bar',
+                data: {
+                    labels: byCity.labels.slice(0, 5),
+                    datasets: [{
+                        label: 'रेवेन्यू (₹)',
+                        data: byCity.values.slice(0, 5),
+                        backgroundColor: 'rgba(45, 125, 70, 0.6)',
+                        borderColor: '#2d7d46',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: (value) => '₹' + value.toLocaleString()
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // ===== LOCATION REPORT =====
+        function generateLocationReport() {
+            const tbody = document.getElementById('locationReportBody');
+            const cityData = getDetailedCityData(filteredVehicles);
+            
+            tbody.innerHTML = cityData.map((c, i) => `
+                <tr>
+                    <td>${i + 1}</td>
+                    <td><i class="fas fa-map-pin" style="color:#d4a373;"></i> ${c.city}</td>
+                    <td><strong>${c.total}</strong></td>
+                    <td>${c.bikes}</td>
+                    <td>${c.cars}</td>
+                    <td>₹${c.avgPrice.toLocaleString()}</td>
+                </tr>
+            `).join('');
+
+            // Location Chart
+            charts.location = new Chart(document.getElementById('locationChart'), {
+                type: 'bar',
+                data: {
+                    labels: cityData.map(c => c.city),
+                    datasets: [
+                        {
+                            label: 'बाइक',
+                            data: cityData.map(c => c.bikes),
+                            backgroundColor: '#2a6bb0'
+                        },
+                        {
+                            label: 'कार',
+                            data: cityData.map(c => c.cars),
+                            backgroundColor: '#b85c1a'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: { position: 'top' }
+                    },
+                    scales: {
+                        x: {
+                            stacked: true
+                        },
+                        y: {
+                            stacked: true,
+                            beginAtZero: true,
+                            ticks: { stepSize: 1 }
+                        }
+                    }
+                }
+            });
+        }
+
+        // ===== HELPER FUNCTIONS =====
+        function getUniqueUsers(vehicles) {
+            const users = new Set();
+            vehicles.forEach(v => {
+                if (v.userId) users.add(v.userId);
+            });
+            return Array.from(users);
+        }
+
+        function getUniqueUsersWithVehicles(vehicles) {
+            const userMap = new Map();
+            vehicles.forEach(v => {
+                if (v.userId) {
+                    if (!userMap.has(v.userId)) {
+                        userMap.set(v.userId, {
+                            userId: v.userId,
+                            email: v.userEmail || 'N/A',
+                            vehicleCount: 0,
+                            totalPrice: 0,
+                            joined: v.timestamp || new Date()
+                        });
+                    }
+                    const user = userMap.get(v.userId);
+                    user.vehicleCount++;
+                    user.totalPrice += (v.price || 0);
+                }
+            });
+            return Array.from(userMap.values());
+        }
+
+        function getTotalRevenue(vehicles) {
+            return vehicles.reduce((sum, v) => sum + (v.price || 0), 0);
+        }
+
+        function getTotalViews(vehicles) {
+            return Math.floor(Math.random() * 500) + 100;
+        }
+
+        function generateTrendData(vehicles, days) {
+            const data = [];
+            const labels = [];
+            const now = new Date();
+            
+            for (let i = days - 1; i >= 0; i--) {
+                const date = new Date(now);
+                date.setDate(date.getDate() - i);
+                labels.push(date.toLocaleDateString('hi-IN', { day: '2-digit', month: 'short' }));
+                
+                const count = vehicles.filter(v => {
+                    if (!v.timestamp) return false;
+                    const vDate = new Date(v.timestamp);
+                    return vDate.toDateString() === date.toDateString();
+                }).length;
+                data.push(count);
+            }
+            
+            return { labels, values: data };
+        }
+
+        function generateRevenueData(vehicles) {
+            const data = [];
+            const labels = [];
+            const now = new Date();
+            
+            for (let i = 11; i >= 0; i--) {
+                const date = new Date(now);
+                date.setMonth(date.getMonth() - i);
+                labels.push(date.toLocaleDateString('hi-IN', { month: 'short', year: 'numeric' }));
+                
+                const revenue = vehicles.filter(v => {
+                    if (!v.timestamp) return false;
+                    const vDate = new Date(v.timestamp);
+                    return vDate.getMonth() === date.getMonth() && 
+                           vDate.getFullYear() === date.getFullYear();
+                }).reduce((sum, v) => sum + (v.price || 0), 0);
+                data.push(revenue);
+            }
+            
+            return { labels, values: data };
+        }
+
+        function getCityData(vehicles) {
+            const cityMap = new Map();
+            vehicles.forEach(v => {
+                const city = v.city || 'वाराणसी';
+                cityMap.set(city, (cityMap.get(city) || 0) + 1);
+            });
+            const sorted = Array.from(cityMap.entries())
+                .sort((a, b) => b[1] - a[1]);
+            return {
+                labels: sorted.map(c => c[0]),
+                values: sorted.map(c => c[1])
+            };
+        }
+
+        function getDetailedCityData(vehicles) {
+            const cityMap = new Map();
+            vehicles.forEach(v => {
+                const city = v.city || 'वाराणसी';
+                if (!cityMap.has(city)) {
+                    cityMap.set(city, { city, total: 0, bikes: 0, cars: 0, totalPrice: 0 });
+                }
+                const data = cityMap.get(city);
+                data.total++;
+                if (v.type === 'bike') data.bikes++;
+                else if (v.type === 'car') data.cars++;
+                data.totalPrice += (v.price || 0);
+            });
+            return Array.from(cityMap.values())
+                .map(c => ({ ...c, avgPrice: c.total > 0 ? c.totalPrice / c.total : 0 }))
+                .sort((a, b) => b.total - a.total);
+        }
+
+        function getTypeData(vehicles) {
+            const typeMap = new Map();
+            vehicles.forEach(v => {
+                const type = v.category || v.type || 'अन्य';
+                typeMap.set(type, (typeMap.get(type) || 0) + 1);
+            });
+            const sorted = Array.from(typeMap.entries())
+                .sort((a, b) => b[1] - a[1]);
+            return {
+                labels: sorted.map(t => t[0]),
+                values: sorted.map(t => t[1])
+            };
+        }
+
+        function getRevenueByType(vehicles) {
+            const bikeRevenue = vehicles.filter(v => v.type === 'bike')
+                .reduce((sum, v) => sum + (v.price || 0), 0);
+            const carRevenue = vehicles.filter(v => v.type === 'car')
+                .reduce((sum, v) => sum + (v.price || 0), 0);
+            return {
+                labels: ['बाइक', 'कार'],
+                values: [bikeRevenue, carRevenue]
+            };
+        }
+
+        function getRevenueByCity(vehicles) {
+            const cityMap = new Map();
+            vehicles.forEach(v => {
+                const city = v.city || 'वाराणसी';
+                cityMap.set(city, (cityMap.get(city) || 0) + (v.price || 0));
+            });
+            const sorted = Array.from(cityMap.entries())
+                .sort((a, b) => b[1] - a[1]);
+            return {
+                labels: sorted.map(c => c[0]),
+                values: sorted.map(c => c[1])
+            };
+        }
+
+        function formatDate(date) {
+            if (!date) return 'N/A';
+            try {
+                const d = new Date(date);
+                return d.toLocaleDateString('hi-IN', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric'
+                });
+            } catch {
+                return 'N/A';
+            }
+        }
+
+        // ===== FILTER FUNCTIONS =====
+        window.applyDateFilter = () => {
+            const start = document.getElementById('startDate').value;
+            const end = document.getElementById('endDate').value;
+            
+            if (!start || !end) {
+                filteredVehicles = [...allVehicles];
+            } else {
+                const startDate = new Date(start);
+                const endDate = new Date(end);
+                endDate.setHours(23, 59, 59);
+                
+                filteredVehicles = allVehicles.filter(v => {
+                    if (!v.timestamp) return false;
+                    const vDate = new Date(v.timestamp);
+                    return vDate >= startDate && vDate <= endDate;
+                });
+            }
+            
+            generateAllReports();
+        };
+
+        window.changeReportType = () => {
+            const type = document.getElementById('reportType').value;
+            switchReport(type);
+        };
+
+        window.switchReport = (type) => {
+            currentReportType = type;
+            
+            // Update tabs
+            document.querySelectorAll('.report-tab').forEach(tab => {
+                tab.classList.toggle('active', tab.dataset.report === type);
+            });
+            
+            // Update sections
+            document.querySelectorAll('.report-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            const target = document.getElementById('report' + type.charAt(0).toUpperCase() + type.slice(1));
+            if (target) target.style.display = 'block';
+            
+            // Update select
+            document.getElementById('reportType').value = type;
+        };
+
+        // ===== EXPORT FUNCTIONS =====
+        window.exportAllReports = () => {
+            if (!confirm('सभी रिपोर्ट्स डाउनलोड करें?')) return;
+            
+            // Export vehicles
+            exportCSV(filteredVehicles, 'vehicles_report');
+            
+            // Export users
+            const users = getUniqueUsersWithVehicles(filteredVehicles);
+            exportCSV(users, 'users_report');
+            
+            // Export location
+            const location = getDetailedCityData(filteredVehicles);
+            exportCSV(location, 'location_report');
+            
+            alert('✅ सभी रिपोर्ट्स डाउनलोड हो रही हैं!');
+        };
+
+        window.exportVehiclesReport = () => {
+            exportCSV(filteredVehicles, 'vehicles_report');
+        };
+
+        window.exportUsersReport = () => {
+            const users = getUniqueUsersWithVehicles(filteredVehicles);
+            exportCSV(users, 'users_report');
+        };
+
+        window.exportVehiclesPDF = () => {
+            alert('📄 PDF Export - Print से Save करें (Ctrl+P)');
+            window.print();
+        };
+
+        function exportCSV(data, filename) {
+            if (!data || data.length === 0) {
+                alert('❌ कोई डेटा नहीं है!');
+                return;
+            }
+            
+            const headers = Object.keys(data[0]);
+            const csvRows = [headers.join(',')];
+            
+            data.forEach(row => {
+                const values = headers.map(header => {
+                    const val = row[header] || '';
+                    return `"${String(val).replace(/"/g, '""')}"`;
+                });
+                csvRows.push(values.join(','));
+            });
+            
+            const csv = csvRows.join('\n');
+            const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `${filename}_${new Date().toISOString().split('T')[0]}.csv`;
+            link.click();
+            URL.revokeObjectURL(link.href);
+        }
+
+        window.refreshReports = () => {
+            loadReports();
+        };
+
+        window.logoutAdmin = () => {
+            auth.signOut();
+            window.location.href = '../index.html';
+        };
+    </script>
+</body>
+</html>

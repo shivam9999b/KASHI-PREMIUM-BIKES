@@ -1,0 +1,178 @@
+/* ===== LISTINGS PAGE ===== */
+.listings-section {
+    padding: 40px 0 80px;
+    background: #f8f4f0;
+    min-height: 70vh;
+}
+
+.listings-header {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.listings-header h1 {
+    font-size: 2.2rem;
+    color: #2d2a24;
+}
+
+.listings-header h1 i {
+    color: #d4a373;
+    margin-right: 12px;
+}
+
+.listings-header p {
+    color: #888;
+    font-size: 1rem;
+}
+
+/* ===== FILTERS BAR ===== */
+.filters-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    padding: 15px 25px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+    margin-bottom: 30px;
+}
+
+.filter-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 8px 18px;
+    border: 2px solid #e8e0d8;
+    border-radius: 30px;
+    background: transparent;
+    color: #4a453c;
+    font-weight: 500;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: 'Poppins', sans-serif;
+}
+
+.filter-btn:hover {
+    border-color: #d4a373;
+    color: #d4a373;
+}
+
+.filter-btn.active {
+    background: #d4a373;
+    border-color: #d4a373;
+    color: #fff;
+}
+
+.filter-btn i {
+    margin-right: 6px;
+}
+
+.search-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    max-width: 320px;
+    position: relative;
+}
+
+.search-group input {
+    width: 100%;
+    padding: 10px 16px;
+    border: 2px solid #e8e0d8;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    background: #faf8f6;
+    transition: all 0.3s;
+    font-family: 'Poppins', sans-serif;
+}
+
+.search-group input:focus {
+    outline: none;
+    border-color: #d4a373;
+    background: #fff;
+}
+
+.search-group button {
+    background: none;
+    border: none;
+    color: #aaa;
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 5px;
+    position: absolute;
+    right: 15px;
+}
+
+.search-group button:hover {
+    color: #e74c3c;
+}
+
+.sort-group select {
+    padding: 10px 16px;
+    border: 2px solid #e8e0d8;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    background: #faf8f6;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    color: #4a453c;
+}
+
+.sort-group select:focus {
+    outline: none;
+    border-color: #d4a373;
+}
+
+/* ===== LISTING GRID (overrides) ===== */
+.listing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.listing-card .vehicle-meta {
+    display: flex;
+    gap: 15px;
+    font-size: 0.8rem;
+    color: #888;
+    margin: 6px 0 12px;
+}
+
+.listing-card .vehicle-meta i {
+    margin-right: 4px;
+    color: #d4a373;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 992px) {
+    .listing-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .filters-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+    .filter-group {
+        justify-content: center;
+    }
+    .search-group {
+        max-width: 100%;
+    }
+    .sort-group select {
+        width: 100%;
+    }
+    .listing-grid {
+        grid-template-columns: 1fr;
+    }
+}

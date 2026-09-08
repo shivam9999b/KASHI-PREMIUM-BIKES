@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>यूज़र मैनेज करें - Admin</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="css/admin.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+    <nav class="admin-navbar">
+        <div class="admin-container">
+            <div class="admin-logo">
+                <i class="fas fa-ghat"></i>
+                <span>Admin <span class="highlight">Panel</span></span>
+            </div>
+            <div class="admin-user">
+                <span id="adminEmail">admin@email.com</span>
+                <img src="https://ui-avatars.com/api/?name=Admin&background=d4a373&color=fff" alt="Admin" />
+                <button onclick="logoutAdmin()" class="btn-logout-admin">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="admin-wrapper">
+        <aside class="admin-sidebar">
+            <ul class="sidebar-menu">
+                <li><a href="index.html"><i class="fas fa-chart-pie"></i><span>Dashboard</span></a></li>
+                <li><a href="manage-vehicles.html"><i class="fas fa-car"></i><span>गाड़ियाँ मैनेज करें</span></a></li>
+                <li class="active"><a href="manage-users.html"><i class="fas fa-users"></i><span>यूज़र मैनेज करें</span></a></li>
+                <li><a href="reports.html"><i class="fas fa-chart-bar"></i><span>रिपोर्ट्स</span></a></li>
+                <li><a href="settings.html"><i class="fas fa-cog"></i><span>सेटिंग्स</span></a></li>
+            </ul>
+        </aside>
+
+        <main class="admin-content">
+            <div class="admin-header">
+                <h1><i class="fas fa-users"></i> सभी यूज़र</h1>
+                <div class="admin-actions">
+                    <div class="search-box">
+                        <input type="text" id="searchUser" placeholder="🔍 यूज़र खोजें..." oninput="filterUsers()" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="users-grid" id="usersGrid">
+                <!-- JavaScript से आएगा -->
+            </div>
+        </main>
+    </div>
+
+    <script type="module">
+        import { auth, db } from '../js/firebase.js';
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        let allUsers = [];
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) window.location.href = '../login.html';
+            else loadUsers();
+        });
+
+        async function loadUsers() {
+            try {
+                // Get all unique users from vehicles
+                const snap = await getDocs(collection(db, 'vehicles'));
+                const vehicles = snap.docs.map(doc => doc.data());
+                
+                const userMap = {};
+                vehicles.forEach(v => {
+                    if (v.userId && v.userEmail) {
+                        userMap[v.userId] = {
+                            id: v.userId,
+                            email: v.userEmail,
+                            vehicles: (userMap[v.userId]?.vehicles || 0) + 1
+                        };
+                    }
+                });
+
+                allUsers = Object.values(userMap);
+                renderUsers();
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        function renderUsers() {
+            const grid = document.getElementById('usersGrid');
+            const search = document.getElementById('searchUser').value.toLowerCase();
+            
+            const filtered = allUsers.filter(u => 
+                u.email.toLowerCase().includes(search)
+            );
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div class="no-data">
+                    <i class="fas fa-users-slash" style="font-size:3rem;color:#ddd;"></i>
+                    <p>कोई यूज़र नहीं मिला</p>
+                </div>`;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(u => `
+                <div class="user-card">
+                    <img src="https://ui-avatars.com/api/?name=${u.email}&background=d4a373&color=fff&size=80" alt="${u.email}" />
+                    <h3>${u.email}</h3>
+                    <p><i class="fas fa-car"></i> ${u.vehicles} गाड़ियाँ</p>
+                    <div class="user-actions">
+                        <button onclick="viewUserVehicles('${u.id}')" class="btn-view-user">
+                            <i class="fas fa-eye"></i> गाड़ियाँ देखें
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        window.filterUsers = renderUsers;
+
+        window.viewUserVehicles = (userId) => {
+            window.location.href = `manage-vehicles.html?userId=${userId}`;
+        };
+
+        window.logoutAdmin = () => {
+            auth.signOut();
+            window.location.href = '../index.html';
+        };
+    </script>
+</body>
+</html>
